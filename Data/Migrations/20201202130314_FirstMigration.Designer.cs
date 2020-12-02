@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTravelBook.Data;
 
 namespace MyTravelBook.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201202130314_FirstMigration")]
+    partial class FirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -334,72 +336,6 @@ namespace MyTravelBook.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MyTravelBook.Models.ConnectionTables.TripAccommodationConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AccommodationID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TripID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AccommodationID");
-
-                    b.HasIndex("TripID");
-
-                    b.ToTable("TripAccommodationConnectionTable");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.ConnectionTables.TripExpenseConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ExpenseID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TripID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ExpenseID");
-
-                    b.HasIndex("TripID");
-
-                    b.ToTable("TripExpenseConnectionTable");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.ConnectionTables.TripTravelConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("TravelID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TripID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TravelID");
-
-                    b.HasIndex("TripID");
-
-                    b.ToTable("TripTravelConnectionTable");
-                });
-
             modelBuilder.Entity("MyTravelBook.Models.Expense", b =>
                 {
                     b.Property<int>("ID")
@@ -422,28 +358,6 @@ namespace MyTravelBook.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Expenses");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.FriendshipConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FriendId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("FriendId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FriendshipConnectionTable");
                 });
 
             modelBuilder.Entity("MyTravelBook.Models.Travel", b =>
@@ -514,72 +428,6 @@ namespace MyTravelBook.Data.Migrations
                     b.ToTable("Trips");
                 });
 
-            modelBuilder.Entity("MyTravelBook.Models.UserAccommodationConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AccommodationID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AccommodationID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAccommodationConnectionTable");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.UserExpenseConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ExpenseID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ExpenseID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserExpenseConnectionTable");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.UserTravelConnectionTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("TravelID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TravelID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserTravelConnectionTable");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -631,88 +479,11 @@ namespace MyTravelBook.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MyTravelBook.Models.ConnectionTables.TripAccommodationConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.Accommodation", "Accommodation")
-                        .WithMany()
-                        .HasForeignKey("AccommodationID");
-
-                    b.HasOne("MyTravelBook.Models.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripID");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.ConnectionTables.TripExpenseConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.Expense", "Expense")
-                        .WithMany()
-                        .HasForeignKey("ExpenseID");
-
-                    b.HasOne("MyTravelBook.Models.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripID");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.ConnectionTables.TripTravelConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.Travel", "Travel")
-                        .WithMany()
-                        .HasForeignKey("TravelID");
-
-                    b.HasOne("MyTravelBook.Models.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripID");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.FriendshipConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.ApplicationUser", "Friend")
-                        .WithMany()
-                        .HasForeignKey("FriendId");
-
-                    b.HasOne("MyTravelBook.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("MyTravelBook.Models.Trip", b =>
                 {
                     b.HasOne("MyTravelBook.Models.ApplicationUser", "Organiser")
                         .WithMany()
                         .HasForeignKey("OrganiserId");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.UserAccommodationConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.Accommodation", "Accommodation")
-                        .WithMany()
-                        .HasForeignKey("AccommodationID");
-
-                    b.HasOne("MyTravelBook.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.UserExpenseConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.Expense", "Expense")
-                        .WithMany()
-                        .HasForeignKey("ExpenseID");
-
-                    b.HasOne("MyTravelBook.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MyTravelBook.Models.UserTravelConnectionTable", b =>
-                {
-                    b.HasOne("MyTravelBook.Models.Travel", "Travel")
-                        .WithMany()
-                        .HasForeignKey("TravelID");
-
-                    b.HasOne("MyTravelBook.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyTravelBook.Models
 {
-    public class Accommodation
+    public class AccommodationDTO
     {
         public int ID { get; set; }
         public string AccommodationName { get; set; }
@@ -13,5 +13,6 @@ namespace MyTravelBook.Models
         public int Nights { get; set; }
         public AccommodationType AccommodationType { get; set; }
         public double Price { get; set; }
+        public List<ApplicationUserDTO> Participants { get; set; }
     }
 }

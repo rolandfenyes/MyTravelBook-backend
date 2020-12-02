@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 
 namespace MyTravelBook.Models
 {
-    public class Travel
+    public class TravelDTO
     {
         public int ID { get; set; }
         public TravelType TravelType { get; set; }
         public string StartPoint { get; set; }
         public string Destination { get; set; }
         public double PricePerPeson { get; set; }
+        public List<ApplicationUserDTO> Participants { get; set; }
 
         //CAR
         public double Distance { get; set; }
