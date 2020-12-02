@@ -33,7 +33,6 @@ namespace MyTravelBook.Models
             StartPoint = travel.StartPoint;
             Destination = travel.Destination;
             PricePerPeson = travel.PricePerPeson;
-            // Participants = 
             Distance = travel.Distance;
             Consumption = travel.Consumption;
             FuelPrice = travel.FuelPrice;
