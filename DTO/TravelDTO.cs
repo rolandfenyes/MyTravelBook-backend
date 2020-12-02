@@ -12,7 +12,7 @@ namespace MyTravelBook.Models
         public string StartPoint { get; set; }
         public string Destination { get; set; }
         public double PricePerPeson { get; set; }
-        public List<ApplicationUserDTO> Participants { get; set; }
+        public List<UserDTO> Participants { get; set; }
 
         //CAR
         public double Distance { get; set; }

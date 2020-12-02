@@ -11,9 +11,22 @@ namespace MyTravelBook.Models
         public string TripName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ApplicationUser Organiser { get; set; }
+        public string OrganiserID { get; set; }
         public List<TravelDTO> TravelDTOs { get; set; }
-        public List<ApplicationUserDTO> Participants { get; set; }
+        public List<UserDTO> Participants { get; set; }
         public List<Expense> Expenses { get; set; }
+
+        public TripDTO(Trip trip)
+        {
+            this.ID = trip.ID;
+            this.TripName = trip.TripName;
+            this.StartDate = trip.StartDate;
+            this.EndDate = trip.EndDate;
+            this.OrganiserID = (trip.Organiser != null) ? trip.Organiser.Id : "null";
+        }
+        public TripDTO()
+        {
+
+        }
     }
 }

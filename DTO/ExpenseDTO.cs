@@ -12,6 +12,6 @@ namespace MyTravelBook.Models
         public string Location { get; set; }
         public double Price { get; set; }
         public ExpenseType ExpenseType { get; set; }
-        public List<ApplicationUserDTO> ApplicationUserDTOs { get; set; }
+        public List<UserDTO> ApplicationUserDTOs { get; set; }
     }
 }

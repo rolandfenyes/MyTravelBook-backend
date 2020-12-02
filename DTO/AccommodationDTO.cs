@@ -13,6 +13,6 @@ namespace MyTravelBook.Models
         public int Nights { get; set; }
         public AccommodationType AccommodationType { get; set; }
         public double Price { get; set; }
-        public List<ApplicationUserDTO> Participants { get; set; }
+        public List<UserDTO> Participants { get; set; }
     }
 }

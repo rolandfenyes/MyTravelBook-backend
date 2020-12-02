@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyTravelBook.Data;
+using MyTravelBook.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,34 +24,42 @@ namespace MyTravelBook.Controllers
 
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<UserDTO> Get()
         {
-            return dbContext.Users.Select(user => user.Email).ToArray();
+            var list =  dbContext.Users.ToArray();
+            var dtoList = new List<UserDTO>();
+            foreach (var user in list)
+            {
+                dtoList.Add(new UserDTO(user));
+            }
+            return dtoList;
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public UserDTO Get(string id)
         {
-            return "value";
-        }
-
-        // POST api/<UserController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
+            return new UserDTO(dbContext.Users.Where(user => user.Id == id).FirstOrDefault());
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string id, [FromBody] UserDTO value)
         {
+            var user = dbContext.Users.Where(user => user.Id == id).FirstOrDefault();
+            user.Nickname = value.Nickname;
+            user.Birth = value.Birth;
+            dbContext.Update(user);
+            dbContext.SaveChanges();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            var user = dbContext.Users.Where(user => user.Id == id).FirstOrDefault();
+            dbContext.Users.Remove(user);
+            dbContext.SaveChanges();
         }
     }
 }
