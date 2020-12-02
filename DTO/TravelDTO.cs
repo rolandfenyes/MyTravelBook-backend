@@ -23,5 +23,28 @@ namespace MyTravelBook.Models
         //Public transport
         public double TicketPricePerPeson { get; set; }
         public double SeatReservationPerPerson { get; set; }
+
+        public int TripID { get; set; }
+
+        public TravelDTO(Travel travel)
+        {
+            ID = travel.ID;
+            TravelType = travel.TravelType;
+            StartPoint = travel.StartPoint;
+            Destination = travel.Destination;
+            PricePerPeson = travel.PricePerPeson;
+            // Participants = 
+            Distance = travel.Distance;
+            Consumption = travel.Consumption;
+            FuelPrice = travel.FuelPrice;
+            VignettePrice = travel.VignettePrice;
+            TicketPricePerPeson = travel.TicketPricePerPeson;
+            SeatReservationPerPerson = travel.SeatReservationPerPerson;
+        }
+
+        public TravelDTO()
+        {
+
+        }
     }
 }

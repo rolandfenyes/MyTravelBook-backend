@@ -30,8 +30,11 @@ namespace MyTravelBook.Controllers
             var organiser = dbContext.Users.ToList();
             var dtoList = new List<TripDTO>();
             foreach (var trip in list)
-            {   
-                dtoList.Add(new TripDTO(trip));
+            {
+                var tripDTO = new TripDTO(trip);
+                var travelDTOs = GetTravelDTOsByID(trip.ID);
+                tripDTO.TravelDTOs = travelDTOs;
+                dtoList.Add(tripDTO);
             }
             return dtoList;
         }
@@ -42,15 +45,32 @@ namespace MyTravelBook.Controllers
         {
             var organiser = dbContext.Users.ToList();
             var trip = dbContext.Trips.Where(trip => trip.ID == id).FirstOrDefault();
+            var travelDTOs = GetTravelDTOsByID(id);
+            
             if (trip != null)
             {
-                return new TripDTO(trip);
+                var tripDTO = new TripDTO(trip);
+                tripDTO.TravelDTOs = travelDTOs;
+                return tripDTO;
             }
             else
             {
                 Response.StatusCode = 404;
                 return new TripDTO();
             }
+        }
+
+        public List<TravelDTO> GetTravelDTOsByID(int tripID)
+        {
+            var travels = dbContext.Travels.ToList();
+            var tripTravelCommunicationTable = dbContext.TripTravelConnectionTable.Where(t => t.Trip.ID == tripID).ToList();
+            var travelDTOs = new List<TravelDTO>();
+
+            foreach (var travel in tripTravelCommunicationTable)
+            {
+                travelDTOs.Add(new TravelDTO(dbContext.Travels.Where(t => t.ID == travel.Travel.ID).FirstOrDefault()));
+            }
+            return travelDTOs;
         }
 
         // POST api/<TripController>
