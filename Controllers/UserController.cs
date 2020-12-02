@@ -46,11 +46,6 @@ namespace MyTravelBook.Controllers
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] UserDTO value)
         {
-            var user = dbContext.Users.Where(user => user.Id == id).FirstOrDefault();
-            user.Nickname = value.Nickname;
-            user.Birth = value.Birth;
-            dbContext.Update(user);
-            dbContext.SaveChanges();
         }
 
         // DELETE api/<UserController>/5

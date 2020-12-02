@@ -26,6 +26,7 @@ namespace MyTravelBook.Data
         public DbSet<UserAccommodationConnectionTable> UserAccommodationConnectionTable { get; set; }
         public DbSet<UserExpenseConnectionTable> UserExpenseConnectionTable { get; set; }
         public DbSet<UserTravelConnectionTable> UserTravelConnectionTable { get; set; }
+        public DbSet<TripUserConnectionTable> TripUserConnectionTable { get; set; }
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Travel> Travels { get; set; }
