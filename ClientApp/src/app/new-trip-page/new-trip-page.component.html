@@ -1,0 +1,65 @@
+<body>
+    <table class="table">
+        <tr>
+            <th rowspan="2">
+                <div class="image"></div>
+            </th>
+            <th>
+                <h2>
+                    Create a new trip
+                </h2>
+                <h5>
+                    Let's plan a new adventure!
+                </h5>
+                <div class="newTripProperties">
+                    <form>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Your next adventure's name</label>
+                            <input [(ngModel)]="tripName" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Italy trip">
+                        </div>
+                    </form>
+                    <div class="container">
+                        <div class="row">
+                        <label for="formGroupExampleInput">Travel between</label>
+                        <div class="dateRangePicker">
+                            <input [(ngModel)]="travelBetween"  [ngModelOptions]="{standalone: true}"
+                                  type="text"
+                                  placeholder="Daterangepicker"
+                                  class="form-control"
+                                  bsDaterangepicker
+                                  [bsConfig]="{ isAnimated: true }"
+                                  [minDate]="minDate">
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <div class="addedFriends">
+                    <h5>
+                        Invited friends
+                    </h5>
+                    <div class="friends" *ngFor="let item of invitedFriends">
+                        <mtb-friend-card [user]="item" [isInviation]="false" (click)="removeFriend(item)"></mtb-friend-card>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <h2>
+                    Friends
+                </h2>
+                <h5>
+                    Invite your travel buddies!
+                </h5>
+                <div class="friendsScroll">
+                    <div class="friends" *ngFor="let item of myFriends">
+                        <mtb-friend-card [user]="item" [isInviation]="true" (click)="inviteFriend(item)"></mtb-friend-card>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th class="nextButtonRow">
+                <button type="button" class="btn" (click)="saveTripAndGoToCustomise()">Next</button>
+            </th>
+        </tr>
+    </table>
+</body>

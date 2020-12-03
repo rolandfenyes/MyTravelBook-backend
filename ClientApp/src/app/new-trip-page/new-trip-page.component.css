@@ -1,0 +1,99 @@
+th {
+    padding: 0px;
+    text-align: center;
+    vertical-align: top;
+    border: 0px;
+}
+
+.newTripProperties {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newTrip {
+    width: 80%;
+}
+
+table, tr {
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+}
+
+.friends {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.friendsScroll {
+    height: 50vh;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.dateRangePicker {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.addedFriends {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    height: 300px;
+    width: 400px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+body {
+    background-color: transparent;
+}
+
+.image {
+    background-image: url(../../assets/new-trip.jpg);
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: center;
+    width: 20vw;
+    height: 94vh;
+}
+
+body {
+    z-index: 5;
+}
+
+@media only screen and (max-width: 1019px) {
+    .image {
+        display: none;
+    }
+
+    table th {
+        display: block;
+        width: 100vw;
+    }
+
+    .newTripProperties {
+        width: 90vw;
+    }
+
+    .addedFriends {
+        width: 90vw;
+        background-color: #E0E0E0;
+        border: black;
+        border-width: 2px;
+    }
+
+    .btn {
+       margin: 20px; 
+    }
+}

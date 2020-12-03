@@ -14,6 +14,7 @@ import { AccommodationCardComponent } from './accommodation-card/accommodation-c
 import { CustomizeTripPageComponent } from './customize-trip-page/customize-trip-page.component';
 import { FriendCardComponent } from './friend-card/friend-card.component';
 import { MyTripsPageComponent } from './my-trips-page/my-trips-page.component';
+import { NewTripPageComponent } from './new-trip-page/new-trip-page.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MyTripsPageComponent } from './my-trips-page/my-trips-page.component';
     CustomizeTripPageComponent,
     FriendCardComponent,
     MyTripsPageComponent,
+    NewTripPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
