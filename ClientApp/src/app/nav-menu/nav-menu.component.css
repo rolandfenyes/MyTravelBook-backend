@@ -16,3 +16,21 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+#loggedIn {
+  display: none;
+}
+
+#notLoggedIn .form-inline a,
+#loggedIn .form-inline a,
+.text-dark a {
+  color: white !important;
+}
+
+.navbar {
+  background-color: #008BC4;
+}
+
+a:hover {
+  cursor: pointer;
+}

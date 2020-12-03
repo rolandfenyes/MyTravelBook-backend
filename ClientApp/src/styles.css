@@ -1,16 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+/* You can add global styles to this file, and also import other style files */
+
+.bs-datepicker-body table td span.selected,
+.bs-datepicker-head,
+.bs-datepicker-head, .bs-datepicker button:active,
+.bs-datepicker-body table td.selected span,
+.bs-datepicker-body table td span[class*="select-"]:after,
+.bs-datepicker-body table td[class*="select-"] span:after,
+.bs-datepicker-body table td.active-week span:hover
+{
+  background-color: #008BC4 !important; 
 }
 
-code {
-  color: #e01a76;
+.bs-datepicker-body table td.week span {
+    color: #008BC4 !important; 
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn {
+  background-color: #008BC4;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #006189;
+  color: white;
 }
