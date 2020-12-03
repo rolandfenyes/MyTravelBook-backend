@@ -47,7 +47,6 @@ namespace MyTravelBook.Controllers
         [HttpGet("friends/{id}")]
         public List<UserDTO> GetFriends(string id)
         {
-            var friendDTO = new FriendDTO();
             var users = dbContext.Users.ToList();
             var friends = dbContext.FriendshipConnectionTable.Where(f => f.User.Id == id).ToList();
             var userDTOs = new List<UserDTO>();
