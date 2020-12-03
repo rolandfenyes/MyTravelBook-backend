@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-body">
+        <table>
+            <tr>
+                <th>
+                    {{outgoing.city}}
+                </th>
+                <th>
+                    -
+                </th>
+                <th>
+                    {{outgoing.name}}
+                </th>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    {{outgoing.outgoingType}}
+                </th>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    <div *ngFor="let participant of outgoing.participants">
+                        {{participant.nickname}}
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    In total: {{outgoing.price}} €
+                </th>
+            </tr>
+        </table>
+    </div>
+  </div>
