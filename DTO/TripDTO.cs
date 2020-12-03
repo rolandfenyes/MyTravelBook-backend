@@ -12,6 +12,7 @@ namespace MyTravelBook.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string OrganiserID { get; set; }
+        public string OrganiserName { get; set; }
         public List<TravelDTO> TravelDTOs { get; set; }
         public List<AccommodationDTO> AccommodationDTOs { get; set; }
         public List<UserDTO> Participants { get; set; }

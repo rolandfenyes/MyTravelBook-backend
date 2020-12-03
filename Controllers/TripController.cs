@@ -43,6 +43,7 @@ namespace MyTravelBook.Controllers
                 tripDTO.AccommodationDTOs = accommodationDTOs;
                 tripDTO.Expenses = expenseDTOs;
                 tripDTO.Participants = usersDTOs;
+                tripDTO.OrganiserName = organiser.Where(o => o.Id == tripDTO.OrganiserID).FirstOrDefault().Nickname;
 
                 dtoList.Add(tripDTO);
             }

@@ -4,8 +4,10 @@ import { MyAccount, User } from './user';
 export class Trip {
     tripName: string;
     startDate!: Date;
-    travels!: Array<Travelling>;
+    endDate!: Date;
     organiser!: User;
+    travels!: Array<Travelling>;
+    
     participantsDictionary!: { [nickname: string] : User};
     participants!: Array<User>;
     accommodations: Array<Accommodation>;
