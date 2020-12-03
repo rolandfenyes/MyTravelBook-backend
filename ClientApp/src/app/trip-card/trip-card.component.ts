@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TripDTO } from '../model/dtos';
 import { Trip } from '../model/trip';
-import { TripDTO } from '../my-trips-page/my-trips-page.component';
 
 @Component({
   selector: 'app-trip-card',
