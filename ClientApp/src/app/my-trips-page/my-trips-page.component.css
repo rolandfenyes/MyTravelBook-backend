@@ -1,0 +1,47 @@
+.myTripsInProgressContainer,
+.myFutureTripsContainer {
+    padding: 0px;
+    top: 0px;
+}
+
+table, tr {
+    width: 90vw;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th .myTripsInProgressContainer,
+th .myFutureTripsContainer {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 80vh;
+}
+
+th {
+    width: 50%;
+    padding: 0px;
+    text-align: center;
+    vertical-align: top;
+}
+
+body {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url(../../assets/athens.jpg);
+    background-size: cover;
+    background-position-y: bottom;
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+}
+
+h1 {
+    color: white;
+}
+
+.cards {
+    
+}

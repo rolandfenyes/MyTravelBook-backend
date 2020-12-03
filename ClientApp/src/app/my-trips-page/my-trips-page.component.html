@@ -1,0 +1,36 @@
+<body>
+    <table>
+        <tr>
+            <th>
+                <h1>
+                    My trips in progress
+                </h1>
+            </th>
+            <th>
+                <h1>
+                    My future trips
+                </h1>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="myTripsInProgressContainer">
+                    <div class="cards" *ngFor="let item of myTripsInProgress">
+                        <div class="animate__animated animate__flipInX animate__delay-.5s" (click)="navigateToCustomizeById(item)">
+                            <mtb-trip-card [trip]="item"></mtb-trip-card>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <div class="myFutureTripsContainer">
+                    <div class="cards" *ngFor="let item of myFutureTrips">
+                        <div class="animate__animated animate__flipInX animate__delay-.5s" (click)="navigateToCustomizeById(item)">
+                            <mtb-trip-card [trip]="item"></mtb-trip-card>
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </table>
+</body>
