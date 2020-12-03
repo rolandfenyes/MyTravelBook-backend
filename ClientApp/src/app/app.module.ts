@@ -42,6 +42,9 @@ import { TripCardComponent } from './trip-card/trip-card.component';
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'}, //canActivate: [AuthorizeGuard]
+      { path: 'my-trips', component: MyTripsPageComponent},
+      { path: 'create-new-trip', component: NewTripPageComponent},
+      { path: 'customize-trip/:id', component: CustomizeTripPageComponent}
     ])
   ],
   providers: [

@@ -6,7 +6,7 @@ import { MyAccount, User } from '../model/user';
 @Component({
   selector: 'app-new-trip-page',
   templateUrl: './new-trip-page.component.html',
-  styleUrls: ['./new-trip-page.component.css']
+  styleUrls: ['./new-trip-page.component.scss']
 })
 export class NewTripPageComponent implements OnInit {
 

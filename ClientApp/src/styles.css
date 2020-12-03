@@ -27,3 +27,9 @@
   background-color: #006189;
   color: white;
 }
+
+.container {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
