@@ -56,7 +56,6 @@ namespace MyTravelBook.Controllers
                 var userDTO = new UserDTO(friend.Friend);
                 userDTOs.Add(userDTO);
             }
-            friendDTO.Friends = userDTOs;
 
             return userDTOs;
         }
