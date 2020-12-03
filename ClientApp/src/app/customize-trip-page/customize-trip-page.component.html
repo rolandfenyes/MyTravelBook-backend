@@ -41,25 +41,25 @@
             <th>
                 <div *ngFor="let item of trip.travels; index as i">
                     <div (click)="travelCardClicked(i)">
-                        <mtb-travel-card [travel]="item"></mtb-travel-card>
+                        <app-travel-card [travel]="item"></app-travel-card>
                     </div>
                 </div>
             </th>
             <th>
                 <div *ngFor="let night of trip.accommodations; index as i">
                     <div (click)="accommodationCardClicked(i)">
-                        <mtb-accommodation-card [accommodation]="night"></mtb-accommodation-card>
+                        <app-accommodation-card [accommodation]="night"></app-accommodation-card>
                     </div>
                 </div>
             </th>
             <th>
                 <div *ngFor="let outgoing of trip.outgoings">
-                    <mtb-outgoing-card [outgoing]="outgoing"></mtb-outgoing-card>
+                    <app-outgoing-card [outgoing]="outgoing"></app-outgoing-card>
                 </div>
             </th>
             <th>
                 <div *ngFor="let participant of trip.participants">
-                    <mtb-person-costs-card [user]="participant"></mtb-person-costs-card>
+                    <app-person-costs-card [user]="participant"></app-person-costs-card>
                 </div>
             </th>
             <th class="optionsColumn">

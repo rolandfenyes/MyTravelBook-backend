@@ -19,7 +19,7 @@ export class TravelCardComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.travel.travelType == TravelType.CAR) {
-      document.getElementById('detailsCar'+this.travel.id)?.classList.remove('hidden');
+      document.getElementById('detailsCar'+this.travel.id).classList.remove('hidden');
     }
   }
 

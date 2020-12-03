@@ -21,15 +21,16 @@
                     <div class="container">
                         <div class="row">
                         <label for="formGroupExampleInput">Travel between</label>
-                        <div class="dateRangePicker">
+                        <!-- <div class="dateRangePicker">
                             <input [(ngModel)]="travelBetween"  [ngModelOptions]="{standalone: true}"
                                   type="text"
                                   placeholder="Daterangepicker"
                                   class="form-control"
                                   bsDaterangepicker
                                   [bsConfig]="{ isAnimated: true }"
-                                  [minDate]="minDate">
-                          </div>
+                                  [minDate]="minDate"
+                                  >
+                          </div> -->
                         </div>
                       </div>
                 </div>
@@ -38,7 +39,7 @@
                         Invited friends
                     </h5>
                     <div class="friends" *ngFor="let item of invitedFriends">
-                        <mtb-friend-card [user]="item" [isInviation]="false" (click)="removeFriend(item)"></mtb-friend-card>
+                        <app-friend-card [user]="item" [isInviation]="false" (click)="removeFriend(item)"></app-friend-card>
                     </div>
                 </div>
             </th>
@@ -51,7 +52,7 @@
                 </h5>
                 <div class="friendsScroll">
                     <div class="friends" *ngFor="let item of myFriends">
-                        <mtb-friend-card [user]="item" [isInviation]="true" (click)="inviteFriend(item)"></mtb-friend-card>
+                        <app-friend-card [user]="item" [isInviation]="true" (click)="inviteFriend(item)"></app-friend-card>
                     </div>
                 </div>
             </th>

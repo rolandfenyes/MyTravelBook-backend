@@ -72,22 +72,22 @@ export class CustomizeTripPageComponent implements OnInit {
   travelCardClicked(index: number) {
     this.clearSideBar();
     if (this.selectedTravelType) {
-      document.getElementById('showTravelDetailsTable'+this.selectedTravelType)?.classList.add('hidden');
+      document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.add('hidden');
     }
     this.selectedTravel = this.trip.travels[index];
     this.selectedTravelType = (this.selectedTravel.travelType == TravelType.CAR) ? TravelType.CAR : "PublicTransport";
-    document.getElementById('showTravelDetailsTable'+this.selectedTravelType)?.classList.remove('hidden');
+    document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.remove('hidden');
   }
 
   accommodationCardClicked(index: number) {
     this.clearSideBar();
     this.selectedAccommodation = this.trip.accommodations[index];
-    document.getElementById('showAccommodationDetailsTable')?.classList.remove('hidden');
+    document.getElementById('showAccommodationDetailsTable').classList.remove('hidden');
   }
 
   clearSideBar() {
-    document.getElementById('showAccommodationDetailsTable')?.classList.add('hidden');
-    document.getElementById('showTravelDetailsTable'+this.selectedTravelType)?.classList.add('hidden');
+    document.getElementById('showAccommodationDetailsTable').classList.add('hidden');
+    document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.add('hidden');
   }
 
   clearSelectedFriends() {
@@ -100,12 +100,12 @@ export class CustomizeTripPageComponent implements OnInit {
 
     if (this.isDetailedOptionsHidden) {
       this.isDetailedOptionsHidden = false;
-      document.getElementById(this.buttonDictionary[buttonId])?.classList.remove('hidden');
+      document.getElementById(this.buttonDictionary[buttonId]).classList.remove('hidden');
       this.manipulateButtons(buttonId, this.isDetailedOptionsHidden);
       
     } else {
       this.isDetailedOptionsHidden = true;
-      document.getElementById(this.buttonDictionary[buttonId])?.classList.add('hidden');
+      document.getElementById(this.buttonDictionary[buttonId]).classList.add('hidden');
       this.manipulateButtons(buttonId, this.isDetailedOptionsHidden);
     }
   }
@@ -135,23 +135,23 @@ export class CustomizeTripPageComponent implements OnInit {
 
   showTravelTypeOptions() {
     if (this.actualShownTravel) {
-      document.getElementById('travellingBy' + this.actualShownTravel + 'Options')?.classList.add('hidden');
+      document.getElementById('travellingBy' + this.actualShownTravel + 'Options').classList.add('hidden');
     }
     if (this.travelType == TravelType.CAR) {
-      document.getElementById('travellingBy' + this.travelType + 'Options')?.classList.remove('hidden');
+      document.getElementById('travellingBy' + this.travelType + 'Options').classList.remove('hidden');
     } else {
-      document.getElementById('travellingByPublicTransportOptions')?.classList.remove('hidden');
+      document.getElementById('travellingByPublicTransportOptions').classList.remove('hidden');
     }
-    document.getElementById('finalRow')?.classList.remove('hidden');
+    document.getElementById('finalRow').classList.remove('hidden');
     this.actualShownTravel = this.travelType;
   }
 
   accommodationTypeHasBeenChosen() {
-    document.getElementById('finalRowAccommodation')?.classList.remove('hidden');
+    document.getElementById('finalRowAccommodation').classList.remove('hidden');
   }
 
   outgoingTypeHasBeenChosen() {
-    document.getElementById('finalRowOutgoing')?.classList.remove('hidden');
+    document.getElementById('finalRowOutgoing').classList.remove('hidden');
   }
 
   addFriendToTravel() {
