@@ -16,6 +16,7 @@ import { FriendCardComponent } from './friend-card/friend-card.component';
 import { MyTripsPageComponent } from './my-trips-page/my-trips-page.component';
 import { NewTripPageComponent } from './new-trip-page/new-trip-page.component';
 import { OutgoingCardComponent } from './outgoing-card/outgoing-card.component';
+import { PersonCostsCardComponent } from './person-costs-card/person-costs-card.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { OutgoingCardComponent } from './outgoing-card/outgoing-card.component';
     MyTripsPageComponent,
     NewTripPageComponent,
     OutgoingCardComponent,
+    PersonCostsCardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
