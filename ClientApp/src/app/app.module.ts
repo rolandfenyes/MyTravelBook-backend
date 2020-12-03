@@ -12,6 +12,7 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { AccommodationCardComponent } from './accommodation-card/accommodation-card.component';
 import { CustomizeTripPageComponent } from './customize-trip-page/customize-trip-page.component';
+import { FriendCardComponent } from './friend-card/friend-card.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CustomizeTripPageComponent } from './customize-trip-page/customize-trip
     HomeComponent,
     AccommodationCardComponent,
     CustomizeTripPageComponent,
+    FriendCardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
