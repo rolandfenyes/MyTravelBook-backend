@@ -11,6 +11,7 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { AccommodationCardComponent } from './accommodation-card/accommodation-card.component';
+import { CustomizeTripPageComponent } from './customize-trip-page/customize-trip-page.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AccommodationCardComponent } from './accommodation-card/accommodation-c
     NavMenuComponent,
     HomeComponent,
     AccommodationCardComponent,
+    CustomizeTripPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

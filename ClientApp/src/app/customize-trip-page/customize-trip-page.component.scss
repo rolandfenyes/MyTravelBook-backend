@@ -1,0 +1,65 @@
+th {
+    max-width: 18vw;
+    min-width: 200px;
+    text-align: center;
+}
+
+h1, h2, h3, label, p {
+    text-align: center;
+    color: white;
+}
+
+.details {
+    height: 50vh;
+}
+
+.mainTable {
+    background-image: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, .3)), url(../../assets/customization2.jpg);
+    background-size: cover;
+    background-position-y: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+}
+
+.title {
+    height: 7rem;
+    vertical-align: bottom;
+}
+
+.headers {
+    height: 2rem;
+}
+
+tr {
+    vertical-align: top;
+}
+
+.optionsColumn {
+    background-color: rgba($color: #000000, $alpha: .5);
+}
+
+.buttonRow th {
+    padding: 5px;
+}
+
+.customizeTravelTable,
+.buttonTable {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.travellingOptions {
+    max-width: 16vw;
+}
+
+.friendButton {
+    margin: 5px;
+}
+
+.hidden {
+    display: none;
+}

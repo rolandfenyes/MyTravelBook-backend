@@ -1,0 +1,403 @@
+<body>
+    <table class="mainTable">
+        <tr class="title">
+            <th colspan="4">
+                <h1>
+                    {{trip.tripName}}
+                </h1>
+            </th>
+            <th class="optionsColumn">
+
+            </th>
+        </tr>
+        <tr class="headers">
+            <th>
+                <h2>
+                    Travels
+                </h2>
+            </th>
+            <th>
+                <h2>
+                    Nights
+                </h2>
+            </th>
+            <th>
+                <h2>
+                    Outgoings
+                </h2>
+            </th>
+            <th>
+                <h2>
+                    Costs/person
+                </h2>
+            </th>
+            <th class="optionsColumn">
+                <h2>
+                    Options
+                </h2>
+            </th>
+        </tr>
+        <tr class="details">
+            <th>
+                <div *ngFor="let item of trip.travels; index as i">
+                    <div (click)="travelCardClicked(i)">
+                        <mtb-travel-card [travel]="item"></mtb-travel-card>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <div *ngFor="let night of trip.accommodations; index as i">
+                    <div (click)="accommodationCardClicked(i)">
+                        <mtb-accommodation-card [accommodation]="night"></mtb-accommodation-card>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <div *ngFor="let outgoing of trip.outgoings">
+                    <mtb-outgoing-card [outgoing]="outgoing"></mtb-outgoing-card>
+                </div>
+            </th>
+            <th>
+                <div *ngFor="let participant of trip.participants">
+                    <mtb-person-costs-card [user]="participant"></mtb-person-costs-card>
+                </div>
+            </th>
+            <th class="optionsColumn">
+                <table id="buttonTable" class="buttonTable">
+                    <tr class="buttonRow">
+                        <th>
+                            <button id="addNewTravelButton" type="button" class="btn" (click)="optionsButtonPressed('addNewTravelButton')">Add new travel</button>
+                        </th>
+                    </tr>
+                    <tr class="buttonRow">
+                        <th>
+                            <button id="addNewAccommodationButton" type="button" class="btn" (click)="optionsButtonPressed('addNewAccommodationButton')">Add new accommodation</button>
+                        </th>
+                    </tr>
+                    <tr class="buttonRow">
+                        <th>
+                            <button id="addNewOutGoingButton" type="button" class="btn" (click)="optionsButtonPressed('addNewOutGoingButton')">Add new outgoing</button>
+                        </th>
+                    </tr>
+                </table>
+
+                <table id="customizeTravelTable" class="customizeTravelTable hidden">
+                    <tr>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">From</label>
+                            <input [(ngModel)]="startPoint" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Budapest">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">To</label>
+                            <input [(ngModel)]="destination" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Frankfurt am Main">
+                        </div>
+                    </tr>
+                    <tr>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Travelling by</label>
+                        <select (change)="showTravelTypeOptions()" [(ngModel)]="travelType" [ngModelOptions]="{standalone: true}" class="form-control" id="exampleFormControlSelect1">
+                              <option>{{travelTypes.CAR}}</option>
+                              <option>{{travelTypes.BUS}}</option>
+                              <option>{{travelTypes.TRAIN}}</option>
+                              <option>{{travelTypes.FERRY}}</option>
+                            </select>
+                          </div>
+                    </tr>
+
+                    <tr id="travellingByCarOptions" class="travellingByCarOptions hidden">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Distance (km)</label>
+                            <input [(ngModel)]="distance" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="964">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Consumption (l/100km)</label>
+                            <input [(ngModel)]="consumption" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="7.7">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Fuel price (€/l)</label>
+                            <input [(ngModel)]="fuelPrice" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="1.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Vignette price (€)</label>
+                            <input [(ngModel)]="vignettePrice" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="10">
+                        </div>
+                    </tr>
+
+                    <tr id="travellingByPublicTransportOptions" class="travellingOptions hidden">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Ticket price (€/person)</label>
+                            <input [(ngModel)]="ticketPricePerPerson" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Seat reservation (€/person)</label>
+                            <input [(ngModel)]="seatReservationPerPerson" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="5">
+                        </div>
+                    </tr>
+                    <tr id="finalRow" class="customizeTravelTable hidden">
+                        <div class="form-group">
+                            <label for="selectFriend">Guests</label>
+                            <select [(ngModel)]="selectedFriend" [ngModelOptions]="{standalone: true}" class="form-control" id="selectFriend">
+                                <option *ngFor="let friend of trip.participants">
+                                    {{friend.nickname}}
+                                </option>
+                            </select>
+                            <button type="button" class="btn friendButton" id="addFriendToAccommodationButton" (click)="addFriendToAccommodation()">Add friend</button>
+                            </div>
+                        <div *ngFor="let selectedFriend of selectedFriends">
+                            <p>
+                                {{selectedFriend.nickname}}
+                            </p>
+                        </div>
+                        <button type="button" class="btn" (click)="createNewTravel()">Create new travel</button>
+                    </tr>
+                </table>
+                <table id="showTravelDetailsTableCar" class="customizeTravelTable hidden">
+                    <tr>
+                        <th>
+                            <h3>
+                                {{selectedTravel.startPoint}} -> {{selectedTravel.destination}}
+                            </h3>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                By: {{selectedTravel.travelType}}
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Distance: {{selectedTravel.distance}} km
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Consumption: {{selectedTravel.consumption}} l/100km
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Passengers:
+                            </p>
+                            <div *ngFor="let passenger of selectedTravel.participants">
+                                <p>
+                                    {{passenger.nickname}}
+                                </p>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Price: {{selectedTravel.pricePerPerson}} €/person
+                            </p>
+                        </th>
+                    </tr>
+                </table>
+                <table id="showTravelDetailsTablePublicTransport" class="customizeTravelTable hidden">
+                    <tr>
+                        <th>
+                            <h3>
+                                {{selectedTravel.startPoint}} -> {{selectedTravel.destination}}
+                            </h3>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                By: {{selectedTravel.travelType}}
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Ticket price: {{selectedTravel.ticketPricePerPerson}} €/person
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Seat res: {{selectedTravel.seatReservationPerPerson}} €/person
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Participants:
+                            </p>
+                            <div *ngFor="let passenger of selectedTravel.participants">
+                                <p>
+                                    {{passenger.nickname}}
+                                </p>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+
+                <table id="customizeAccommodationTable" class="customizeTravelTable hidden">
+                    <tr>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Location</label>
+                            <input [(ngModel)]="accommodationLocation" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Beograd">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Accommodation name</label>
+                            <input [(ngModel)]="accommodationName" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hotel Slavija">
+                        </div>
+                    </tr>
+                    <tr>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Accommodation type</label>
+                        <select (change)="accommodationTypeHasBeenChosen()" [(ngModel)]="accommodationType" [ngModelOptions]="{standalone: true}" class="form-control" id="exampleFormControlSelect1">
+                              <option>{{accommodationTypes.HOTEL}}</option>
+                              <option>{{accommodationTypes.HOSTEL}}</option>
+                              <option>{{accommodationTypes.APARTMENT}}</option>
+                              <option>{{accommodationTypes.RESORT}}</option>
+                              <option>{{accommodationTypes.TENT}}</option>
+                              <option>{{accommodationTypes.COUCHSURFING}}</option>
+                            </select>
+                          </div>
+                    </tr>
+                    <tr>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Nights</label>
+                            <input [(ngModel)]="nights" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="3">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Price (€)</label>
+                            <input [(ngModel)]="accommodationPrice" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="200">
+                        </div>
+                    </tr>
+                    <tr id="finalRowAccommodation" class="customizeTravelTable hidden">
+                        <div class="form-group">
+                            <label for="selectFriend">Guests</label>
+                            <select [(ngModel)]="selectedFriend" [ngModelOptions]="{standalone: true}" class="form-control" id="selectFriend">
+                                <option *ngFor="let friend of trip.participants">
+                                    {{friend.nickname}}
+                                </option>
+                            </select>
+                            <button type="button" class="btn friendButton" id="addFriendToAccommodationButton" (click)="addFriendToAccommodation()">Add friend</button>
+                            </div>
+                        <div *ngFor="let selectedFriend of selectedFriends">
+                            <p>
+                                {{selectedFriend.nickname}}
+                            </p>
+                        </div>
+                        <button type="button" class="btn" (click)="createNewAccommodation()">Create new accommodation</button>
+                    </tr>
+                </table>
+                
+                <table id="showAccommodationDetailsTable" class="customizeTravelTable hidden">
+                    <tr>
+                        <th>
+                            <h3>
+                                {{selectedAccommodation.accommodationLocation}} - {{selectedAccommodation.accommodationName}}
+                            </h3>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Type: {{selectedAccommodation.accommodationType}}
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Nights: {{selectedAccommodation.nights}}
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Nightly: {{selectedAccommodation.pricePerPersonPerNight}} €/person
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Total: {{selectedAccommodation.pricePerPerson}} €/person
+                            </p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p>
+                                Participants:
+                            </p>
+                            <div *ngFor="let passenger of selectedAccommodation.participants">
+                                <p>
+                                    {{passenger.nickname}}
+                                </p>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+                
+                <table id="customizeOutgoingTable" class="customizeTravelTable">
+                    <tr>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Location</label>
+                            <input [(ngModel)]="location" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Beograd">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Outgoing name</label>
+                            <input [(ngModel)]="outgoingName" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Hotel Slavija">
+                        </div>
+                    </tr>
+                    <tr>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Type</label>
+                        <select (change)="outgoingTypeHasBeenChosen()" [(ngModel)]="outgoingType" [ngModelOptions]="{standalone: true}" class="form-control" id="exampleFormControlSelect1">
+                              <option>{{outgoingTypes.FOOD}}</option>
+                              <option>{{outgoingTypes.RESTAURANT}}</option>
+                              <option>{{outgoingTypes.SHOPPING}}</option>
+                              <option>{{outgoingTypes.ENTERTAINMENT}}</option>
+                              <option>{{outgoingTypes.CULTURE}}</option>
+                              <option>{{outgoingTypes.WELLNESS}}</option>
+                            </select>
+                          </div>
+                    </tr>
+                    <tr>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Price (€)</label>
+                            <input [(ngModel)]="outgoingPrice" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="200">
+                        </div>
+                    </tr>
+                    <tr id="finalRowOutgoing" class="customizeTravelTable hidden">
+                        <div class="form-group">
+                            <label for="selectFriend">Participants</label>
+                            <select [(ngModel)]="selectedFriend" [ngModelOptions]="{standalone: true}" class="form-control" id="selectFriend">
+                                <option *ngFor="let friend of trip.participants">
+                                    {{friend.nickname}}
+                                </option>
+                            </select>
+                            <button type="button" class="btn friendButton" id="addFriendToOutgoingButton" (click)="addFriendToOutgoing()">Add friend</button>
+                            </div>
+                        <div *ngFor="let selectedFriend of selectedFriends">
+                            <p>
+                                {{selectedFriend.nickname}}
+                            </p>
+                        </div>
+                        <button type="button" class="btn" (click)="createNewOutgoing()">Create new outgoing</button>
+                    </tr>
+                </table>
+            </th>
+            
+        </tr>
+        
+    </table>
+    
+</body>
