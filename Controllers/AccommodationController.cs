@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyTravelBook.Data;
+using MyTravelBook.DTO;
 using MyTravelBook.Models;
 using MyTravelBook.Models.ConnectionTables;
 
@@ -60,6 +61,18 @@ namespace MyTravelBook.Controllers
             }
         }
 
+        public List<UserDTO> GetUserDTOsByID(int accommodationID)
+        {
+            var users = dbContext.Users.ToList();
+            var userAccommodationConnection = dbContext.UserAccommodationConnectionTable.Where(t => t.Accommodation.ID == accommodationID).ToList();
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userAccommodationConnection)
+            {
+                userDTOs.Add(new UserDTO(dbContext.Users.Where(u => u.Id == user.User.Id).FirstOrDefault()));
+            }
+            return userDTOs;
+        }
+
         // POST api/<AccommodationController>
         [HttpPost]
         public int Post([FromBody] AccommodationDTO value)
@@ -82,9 +95,16 @@ namespace MyTravelBook.Controllers
         }
 
         // PUT api/<AccommodationController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("addUser/{id}")]
+        public void Put(int id, [FromBody] UserIdDTO value)
         {
+            var user = dbContext.Users.Where(u => u.Id == value.Id).FirstOrDefault();
+            var accommodation = dbContext.Accommodations.Where(t => t.ID == id).FirstOrDefault();
+            var userAccommodationConnection = new UserAccommodationConnectionTable();
+            userAccommodationConnection.Accommodation = accommodation;
+            userAccommodationConnection.User = user;
+            dbContext.UserAccommodationConnectionTable.Add(userAccommodationConnection);
+            dbContext.SaveChanges();
         }
 
         // DELETE api/<AccommodationController>/5

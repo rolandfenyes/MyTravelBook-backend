@@ -77,12 +77,28 @@ namespace MyTravelBook.Controllers
             var travels = dbContext.Travels.ToList();
             var tripTravelCommunicationTable = dbContext.TripTravelConnectionTable.Where(t => t.Trip.ID == tripID).ToList();
             var travelDTOs = new List<TravelDTO>();
+            
 
             foreach (var travel in tripTravelCommunicationTable)
             {
-                travelDTOs.Add(new TravelDTO(dbContext.Travels.Where(t => t.ID == travel.Travel.ID).FirstOrDefault()));
+                var userDTOs = GetUserDTOsByTravelID(travel.ID);
+                var travelDTO = new TravelDTO(dbContext.Travels.Where(t => t.ID == travel.Travel.ID).FirstOrDefault());
+                travelDTO.Participants = userDTOs;
+                travelDTOs.Add(travelDTO);
             }
             return travelDTOs;
+        }
+
+        public List<UserDTO> GetUserDTOsByTravelID(int travelID)
+        {
+            var users = dbContext.Users.ToList();
+            var userTravelConnectionTable = dbContext.UserTravelConnectionTable.Where(t => t.Travel.ID == travelID).ToList();
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userTravelConnectionTable)
+            {
+                userDTOs.Add(new UserDTO(dbContext.Users.Where(u => u.Id == user.User.Id).FirstOrDefault()));
+            }
+            return userDTOs;
         }
 
         public List<AccommodationDTO> GetAccommodationDTOsByID(int tripID)
@@ -93,9 +109,24 @@ namespace MyTravelBook.Controllers
 
             foreach (var accommodation in tripAccommodationCommunicationTable)
             {
-                accommodationDTOs.Add(new AccommodationDTO(dbContext.Accommodations.Where(t => t.ID == accommodation.Accommodation.ID).FirstOrDefault()));
+                var accommodationDTO = new AccommodationDTO(dbContext.Accommodations.Where(t => t.ID == accommodation.Accommodation.ID).FirstOrDefault());
+                var userDTOs = GetUserDTOsByAccommodationID(accommodation.ID);
+                accommodationDTO.Participants = userDTOs;
+                accommodationDTOs.Add(accommodationDTO);
             }
             return accommodationDTOs;
+        }
+
+        public List<UserDTO> GetUserDTOsByAccommodationID(int accommodationID)
+        {
+            var users = dbContext.Users.ToList();
+            var userAccommodationConnection = dbContext.UserAccommodationConnectionTable.Where(t => t.Accommodation.ID == accommodationID).ToList();
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userAccommodationConnection)
+            {
+                userDTOs.Add(new UserDTO(dbContext.Users.Where(u => u.Id == user.User.Id).FirstOrDefault()));
+            }
+            return userDTOs;
         }
 
         public List<UserDTO> GetUserDTOsByID(int tripID)
@@ -126,7 +157,7 @@ namespace MyTravelBook.Controllers
         }
 
         // PUT api/<TripController>/5
-        [HttpPut("addUserToTrip/{id}")]
+        [HttpPut("addUser/{id}")]
         public void Put(int id, [FromBody] UserIdDTO value)
         {
             var user = dbContext.Users.Where(u => u.Id == value.Id).FirstOrDefault();

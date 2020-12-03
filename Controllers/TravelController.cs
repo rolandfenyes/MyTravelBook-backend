@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyTravelBook.Data;
+using MyTravelBook.DTO;
 using MyTravelBook.Models;
 using MyTravelBook.Models.ConnectionTables;
 
@@ -34,7 +35,9 @@ namespace MyTravelBook.Controllers
             foreach (var travel in travels)
             {
                 var travelDTO = new TravelDTO(travel);
+                var userDTOs = GetUserDTOsByID(travel.ID);
                 travelDTO.TripID = tripTravelConnections.Where(trip => trip.Travel.ID == travel.ID).FirstOrDefault().Trip.ID;
+                travelDTO.Participants = userDTOs;
                 travelDTOs.Add(travelDTO);
             }
             return travelDTOs;
@@ -47,9 +50,11 @@ namespace MyTravelBook.Controllers
             var trips = dbContext.Trips.ToList();
             var tripTravelConnections = dbContext.TripTravelConnectionTable.ToList();
             var travelDTO = new TravelDTO(dbContext.Travels.Where(travel => travel.ID == id).FirstOrDefault());
+            var userDTOs = GetUserDTOsByID(id);
             if (travelDTO != null)
             {
                 travelDTO.TripID = tripTravelConnections.Where(trip => trip.Travel.ID == travelDTO.ID).FirstOrDefault().Trip.ID;
+                travelDTO.Participants = userDTOs;
                 return travelDTO;
             }
             else
@@ -58,6 +63,18 @@ namespace MyTravelBook.Controllers
                 return new TravelDTO();
             }
             
+        }
+
+        public List<UserDTO> GetUserDTOsByID(int travelID)
+        {
+            var users = dbContext.Users.ToList();
+            var userTravelConnectionTable = dbContext.UserTravelConnectionTable.Where(t => t.Travel.ID == travelID).ToList();
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userTravelConnectionTable)
+            {
+                userDTOs.Add(new UserDTO(dbContext.Users.Where(u => u.Id == user.User.Id).FirstOrDefault()));
+            }
+            return userDTOs;
         }
 
         // POST api/<TravelController>
@@ -87,9 +104,16 @@ namespace MyTravelBook.Controllers
         }
 
         // PUT api/<TravelController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("addUser/{id}")]
+        public void Put(int id, [FromBody] UserIdDTO value)
         {
+            var user = dbContext.Users.Where(u => u.Id == value.Id).FirstOrDefault();
+            var travel = dbContext.Travels.Where(t => t.ID == id).FirstOrDefault();
+            var travelUserConnection = new UserTravelConnectionTable();
+            travelUserConnection.Travel = travel;
+            travelUserConnection.User = user;
+            dbContext.UserTravelConnectionTable.Add(travelUserConnection);
+            dbContext.SaveChanges();
         }
 
         // DELETE api/<TravelController>/5
