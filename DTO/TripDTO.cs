@@ -15,7 +15,7 @@ namespace MyTravelBook.Models
         public List<TravelDTO> TravelDTOs { get; set; }
         public List<AccommodationDTO> AccommodationDTOs { get; set; }
         public List<UserDTO> Participants { get; set; }
-        public List<Expense> Expenses { get; set; }
+        public List<ExpenseDTO> Expenses { get; set; }
 
         public TripDTO(Trip trip)
         {

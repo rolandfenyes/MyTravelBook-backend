@@ -13,5 +13,21 @@ namespace MyTravelBook.Models
         public double Price { get; set; }
         public ExpenseType ExpenseType { get; set; }
         public List<UserDTO> ApplicationUserDTOs { get; set; }
+        public int TripID { get; set; }
+
+        public ExpenseDTO(Expense expense)
+        {
+            this.ID = expense.ID;
+            this.ExpenseName = expense.ExpenseName;
+            this.Location = expense.Location;
+            this.Price = expense.Price;
+            this.ExpenseType = expense.ExpenseType;
+        }
+
+        public ExpenseDTO()
+        {
+
+        }
+
     }
 }

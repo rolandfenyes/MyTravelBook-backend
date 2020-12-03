@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyTravelBook.Data;
+using MyTravelBook.DTO;
 using MyTravelBook.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -42,10 +43,51 @@ namespace MyTravelBook.Controllers
             return new UserDTO(dbContext.Users.Where(user => user.Id == id).FirstOrDefault());
         }
 
-        // PUT api/<UserController>/5
+        // GET api/<UserController>/friends/5
+        [HttpGet("friends/{id}")]
+        public List<UserDTO> GetFriends(string id)
+        {
+            var friendDTO = new FriendDTO();
+            var users = dbContext.Users.ToList();
+            var friends = dbContext.FriendshipConnectionTable.Where(f => f.User.Id == id).ToList();
+            var userDTOs = new List<UserDTO>();
+
+            foreach (var friend in friends)
+            {
+                var userDTO = new UserDTO(friend.Friend);
+                userDTOs.Add(userDTO);
+            }
+            friendDTO.Friends = userDTOs;
+
+            return userDTOs;
+        }
+
+        // PUT api/<UserController>/addFriend/5
+        [HttpPut("addFriend/{id}")]
+        public void Put(string id, [FromBody] UserIdDTO value)
+        {
+            var friendshipConnection = new FriendshipConnectionTable();
+            var friendshipConnection2 = new FriendshipConnectionTable();
+            var user = dbContext.Users.Where(u => u.Id == id).FirstOrDefault();
+            var friend = dbContext.Users.Where(f => f.Id == value.Id).FirstOrDefault();
+            friendshipConnection.User = user;
+            friendshipConnection.Friend = friend;
+
+            friendshipConnection2.User = friend;
+            friendshipConnection2.Friend = user;
+            dbContext.FriendshipConnectionTable.Add(friendshipConnection);
+            dbContext.FriendshipConnectionTable.Add(friendshipConnection2);
+            dbContext.SaveChanges();
+        }
+
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] UserDTO value)
         {
+            var user = dbContext.Users.Where(u => u.Id == id).FirstOrDefault();
+            user.Nickname = value.Nickname;
+            user.Birth = value.Birth;
+            dbContext.Users.Update(user);
+            dbContext.SaveChanges();
         }
 
         // DELETE api/<UserController>/5

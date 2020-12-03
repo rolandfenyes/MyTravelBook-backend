@@ -36,10 +36,12 @@ namespace MyTravelBook.Controllers
                 var tripDTO = new TripDTO(trip);
                 var travelDTOs = GetTravelDTOsByID(trip.ID);
                 var accommodationDTOs = GetAccommodationDTOsByID(trip.ID);
+                var expenseDTOs = GetExpenseDTOsByID(trip.ID);
                 var usersDTOs = GetUserDTOsByID(trip.ID);
 
                 tripDTO.TravelDTOs = travelDTOs;
                 tripDTO.AccommodationDTOs = accommodationDTOs;
+                tripDTO.Expenses = expenseDTOs;
                 tripDTO.Participants = usersDTOs;
 
                 dtoList.Add(tripDTO);
@@ -55,6 +57,7 @@ namespace MyTravelBook.Controllers
             var trip = dbContext.Trips.Where(trip => trip.ID == id).FirstOrDefault();
             var travelDTOs = GetTravelDTOsByID(id);
             var accommodationDTOs = GetAccommodationDTOsByID(id);
+            var expenseDTOs = GetExpenseDTOsByID(id);
             var usersDTOs = GetUserDTOsByID(id);
             
             if (trip != null)
@@ -62,6 +65,7 @@ namespace MyTravelBook.Controllers
                 var tripDTO = new TripDTO(trip);
                 tripDTO.TravelDTOs = travelDTOs;
                 tripDTO.AccommodationDTOs = accommodationDTOs;
+                tripDTO.Expenses = expenseDTOs;
                 tripDTO.Participants = usersDTOs;
                 return tripDTO;
             }
@@ -123,6 +127,35 @@ namespace MyTravelBook.Controllers
             var userAccommodationConnection = dbContext.UserAccommodationConnectionTable.Where(t => t.Accommodation.ID == accommodationID).ToList();
             var userDTOs = new List<UserDTO>();
             foreach (var user in userAccommodationConnection)
+            {
+                userDTOs.Add(new UserDTO(dbContext.Users.Where(u => u.Id == user.User.Id).FirstOrDefault()));
+            }
+            return userDTOs;
+        }
+
+        public List<ExpenseDTO> GetExpenseDTOsByID(int tripID)
+        {
+            var expenses = dbContext.Expenses.ToList();
+            var tripExpenseCommunicationTable = dbContext.TripExpenseConnectionTable.Where(t => t.Trip.ID == tripID).ToList();
+            var expenseDTOs = new List<ExpenseDTO>();
+
+
+            foreach (var expense in tripExpenseCommunicationTable)
+            {
+                var userDTOs = GetUserDTOsByExpenseID(expense.ID);
+                var expenseDTO = new ExpenseDTO(dbContext.Expenses.Where(e => e.ID == expense.Expense.ID).FirstOrDefault());
+                expenseDTO.ApplicationUserDTOs = userDTOs;
+                expenseDTOs.Add(expenseDTO);
+            }
+            return expenseDTOs;
+        }
+
+        public List<UserDTO> GetUserDTOsByExpenseID(int expenseID)
+        {
+            var users = dbContext.Users.ToList();
+            var userExpenseConnectionTable = dbContext.UserExpenseConnectionTable.Where(e => e.Expense.ID == expenseID).ToList();
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userExpenseConnectionTable)
             {
                 userDTOs.Add(new UserDTO(dbContext.Users.Where(u => u.Id == user.User.Id).FirstOrDefault()));
             }
