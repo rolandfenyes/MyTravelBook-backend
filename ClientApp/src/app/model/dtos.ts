@@ -1,4 +1,4 @@
-export interface TripDTO {
+export class TripDTO {
     id: number;
     tripName: string;
     startDate: Date;
@@ -11,7 +11,7 @@ export interface TripDTO {
     expenses: ExpenseDTO[];
   }
   
-export interface TravelDTO {
+export class TravelDTO {
     id: number;
     travelType: number;
     startPoint: string;
@@ -27,7 +27,7 @@ export interface TravelDTO {
     tripID: number;
   }
   
-export interface AccommodationDTO {
+export class AccommodationDTO {
     id: number;
     accommodationName: string;
     accommodationLocation: string;
@@ -38,11 +38,15 @@ export interface AccommodationDTO {
     tripID: number;
   }
   
-export interface UserDTO {
+export class UserDTO {
     id: string;
     nickname: string;
     birth: Date;
   }
+
+export class UserIdDto {
+  id: string;
+}
   
 export interface ExpenseDTO {
     id: number;

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TripDTO } from '../model/dtos';
 import { Trip } from '../model/trip';
 import { MyAccount, User } from '../model/user';
+import { TripService } from '../services/TripService';
+import { UserService } from '../services/UserService';
 
 @Component({
   selector: 'app-new-trip-page',
@@ -11,20 +15,24 @@ import { MyAccount, User } from '../model/user';
 export class NewTripPageComponent implements OnInit {
 
   tripName!: string;
-  travelBetween!: string;
+  travelStart!: string;
+  travelEnd!: string;
 
   myFriends!: Array<User>;
   invitedFriends!: Array<User>;
   minDate!: Date;
+  tripService: TripService;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http : HttpClient, @Inject('BASE_URL') private baseUrl: string) { 
+    this.tripService = new TripService(http, baseUrl);
+    var userService = new UserService(http, baseUrl);
+    userService.getUser();
+  }
 
   ngOnInit(): void {
-    this.myFriends = MyAccount.getInstance().user.friendsList;
+    this.myFriends = new Array<User>();
     this.invitedFriends = new Array<User>();
     this.minDate = new Date();
-
-    
   }
 
   inviteFriend(friend: User) {
@@ -41,10 +49,21 @@ export class NewTripPageComponent implements OnInit {
 
   saveTripAndGoToCustomise() {
     //TODO save
-    var startDate = new Date(this.travelBetween[0]);
-    var trip = new Trip(this.tripName, startDate);
-    var id = MyAccount.getInstance().user.addTrip(trip);
-    this.router.navigateByUrl('customize-trip/'+ id.toString());
+    
+    var tripDto = new TripDTO();
+    tripDto.tripName = this.tripName;
+    tripDto.startDate = new Date(this.travelStart);
+    tripDto.endDate = new Date(this.travelEnd);
+    tripDto.organiserID = MyAccount.getInstance().userId;
+
+    var id: number;
+    this.tripService.addNewTrip(tripDto).then(tripId => {
+      console.log(id);
+      this.router.navigateByUrl('customize-trip/'+ tripId.toString());
+    });
+    
+    
+
   }
 
 }

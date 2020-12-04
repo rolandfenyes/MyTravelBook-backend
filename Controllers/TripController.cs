@@ -24,6 +24,20 @@ namespace MyTravelBook.Controllers
             this.dbContext = dbContext;
         }
 
+        [HttpGet("usersTrip/{id}")]
+        public IEnumerable<TripDTO> GetUsersTrip(string id)
+        {
+            var users = dbContext.Users.ToList();
+            var trips = dbContext.Trips.ToList();
+            var usersTrip = dbContext.TripUserConnectionTable.Where(u => u.User.Id == id).ToList();
+            var usersTripDTOs = new List<TripDTO>();
+            foreach (var trip in usersTrip)
+            {
+                usersTripDTOs.Add(new TripDTO(trip.Trip));
+            }
+            return usersTripDTOs;
+        }
+
         // GET: api/<TripController>
         [HttpGet]
         public IEnumerable<TripDTO> Get()
@@ -187,6 +201,9 @@ namespace MyTravelBook.Controllers
             trip.Organiser = organiser;
             dbContext.Trips.Add(trip);
             dbContext.SaveChanges();
+            var userIdDTO = new UserIdDTO();
+            userIdDTO.Id = value.OrganiserID;
+            Put(id: trip.ID, value: userIdDTO);
             return trip.ID;
         }
 

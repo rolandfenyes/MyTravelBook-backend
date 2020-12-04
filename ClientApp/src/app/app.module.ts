@@ -19,6 +19,9 @@ import { OutgoingCardComponent } from './outgoing-card/outgoing-card.component';
 import { PersonCostsCardComponent } from './person-costs-card/person-costs-card.component';
 import { TravelCardComponent } from './travel-card/travel-card.component';
 import { TripCardComponent } from './trip-card/trip-card.component';
+// Datepicker module
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { TripCardComponent } from './trip-card/trip-card.component';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,

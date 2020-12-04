@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTravelBook.Data;
 using MyTravelBook.DTO;
@@ -58,6 +60,16 @@ namespace MyTravelBook.Controllers
             }
 
             return userDTOs;
+        }
+
+        [HttpGet("getCurrentUserId")]
+        [Authorize]
+        public UserIdDTO GetCurrentUserId()
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userIdDTO = new UserIdDTO();
+            userIdDTO.Id = id;
+            return userIdDTO;
         }
 
         // PUT api/<UserController>/addFriend/5

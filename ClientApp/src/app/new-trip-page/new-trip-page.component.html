@@ -21,16 +21,16 @@
                     <div class="container">
                         <div class="row">
                         <label for="formGroupExampleInput">Travel between</label>
-                        <!-- <div class="dateRangePicker">
-                            <input [(ngModel)]="travelBetween"  [ngModelOptions]="{standalone: true}"
-                                  type="text"
-                                  placeholder="Daterangepicker"
-                                  class="form-control"
-                                  bsDaterangepicker
-                                  [bsConfig]="{ isAnimated: true }"
-                                  [minDate]="minDate"
-                                  >
-                          </div> -->
+                        <div class="dateRangePicker">
+                            <input [(ngModel)]="travelStart"  [ngModelOptions]="{standalone: true}"
+                                type="text"
+                                placeholder="Start"
+                                class="form-control">
+                            <input [(ngModel)]="travelEnd"  [ngModelOptions]="{standalone: true}"
+                                type="text"
+                                placeholder="End"
+                                class="form-control">
+                          </div>
                         </div>
                       </div>
                 </div>

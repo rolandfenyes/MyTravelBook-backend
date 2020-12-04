@@ -65,6 +65,7 @@ export class MyAccount {
     private static instance: MyAccount;
     
     user!: User;
+    userId!: string;
 
     private constructor() {
     }

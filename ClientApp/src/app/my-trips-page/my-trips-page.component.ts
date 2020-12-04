@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TripDTO } from '../model/dtos';
+import { TripDTO, UserIdDto } from '../model/dtos';
 import { Trip } from '../model/trip';
-import { MyAccount } from '../model/user';
+import { MyAccount, User } from '../model/user';
+import { TripService } from '../services/TripService';
+import { UserService } from '../services/UserService';
 
 @Component({
   selector: 'app-my-trips-page',
@@ -13,13 +15,15 @@ import { MyAccount } from '../model/user';
 export class MyTripsPageComponent implements OnInit {
 
   myTripsInProgress!: Array<Trip>;
+  userID!: UserIdDto;
   //myFutureTrips!: Array<Trip>;
   public myFutureTrips: TripDTO[];
 
   constructor(private router: Router, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
-    http.get<TripDTO[]>(baseUrl + 'api/trip').subscribe(result => {
-      this.myFutureTrips = result;
-    }, error => console.error(error));
+    var tripService = new TripService(http, baseUrl);
+    
+    tripService.getMyTrips().then(trips => this.myFutureTrips = trips);
+    
   }
 
   ngOnInit(): void {
