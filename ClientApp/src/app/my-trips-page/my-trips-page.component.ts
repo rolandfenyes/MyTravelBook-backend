@@ -14,15 +14,22 @@ import { UserService } from '../services/UserService';
 })
 export class MyTripsPageComponent implements OnInit {
 
-  myTripsInProgress!: Array<Trip>;
+  myTripsInProgress!: Array<TripDTO>;
   userID!: UserIdDto;
   //myFutureTrips!: Array<Trip>;
   public myFutureTrips: TripDTO[];
 
   constructor(private router: Router, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     var tripService = new TripService(http, baseUrl);
+    var now = new Date();
+    this.myTripsInProgress = new Array<TripDTO>();
+    var userService = new UserService(http, baseUrl);
+    userService.getUser().then(u => MyAccount.getInstance().userId = u.id);
     
-    tripService.getMyTrips().then(trips => this.myFutureTrips = trips);
+    tripService.getMyTrips().then(trips => {
+      this.myFutureTrips = trips;
+      console.log(trips);
+    });
     
   }
 

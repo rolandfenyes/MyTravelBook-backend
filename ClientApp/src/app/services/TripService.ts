@@ -11,18 +11,16 @@ export class TripService {
 
     tripUrl: string;
     trips: TripDTO[];
+    userId: string;
+    userService: UserService;
 
     constructor(private http : HttpClient, @Inject('BASE_URL') private baseUrl: string) { 
         this.tripUrl="api/trip";
-        var userService = new UserService(http, baseUrl);
-        userService.getUser();
+        this.userService = new UserService(this.http, this.baseUrl);
+        this.userService.getUser().then(u => this.userId = u.id);
       }
 
     async getMyTrips(): Promise<TripDTO[]> {
-      if (MyAccount.getInstance().userId == null) {
-        var userService = new userService(this.http, this.baseUrl);
-        userService.getUser();
-      }
         return this.http.get<TripDTO[]>(this.baseUrl + this.tripUrl + '/usersTrip/' + MyAccount.getInstance().userId).toPromise();
     }
 

@@ -22,11 +22,12 @@ export class NewTripPageComponent implements OnInit {
   invitedFriends!: Array<User>;
   minDate!: Date;
   tripService: TripService;
+  userId!: string;
 
   constructor(private router: Router, private http : HttpClient, @Inject('BASE_URL') private baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
     var userService = new UserService(http, baseUrl);
-    userService.getUser();
+    userService.getUser().then(u => this.userId = u.id);
   }
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class NewTripPageComponent implements OnInit {
     tripDto.tripName = this.tripName;
     tripDto.startDate = new Date(this.travelStart);
     tripDto.endDate = new Date(this.travelEnd);
-    tripDto.organiserID = MyAccount.getInstance().userId;
+    tripDto.organiserID = this.userId;
 
     var id: number;
     this.tripService.addNewTrip(tripDto).then(tripId => {

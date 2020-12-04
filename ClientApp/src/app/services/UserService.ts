@@ -16,11 +16,8 @@ export class UserService {
     this.userUrl="api/user";
   }
 
-  public getUser() {
-    this.http.get<UserIdDto>(this.baseUrl + this.userUrl + '/getCurrentUserId').subscribe(result => {
-      this.userId = result;
-      MyAccount.getInstance().userId = result.id;
-    })
+  public getUser(): Promise<UserIdDto> {
+    return this.http.get<UserIdDto>(this.baseUrl + this.userUrl + '/getCurrentUserId').toPromise();
   }
 
   public getFriends() {
