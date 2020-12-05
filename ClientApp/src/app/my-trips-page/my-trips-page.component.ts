@@ -23,12 +23,17 @@ export class MyTripsPageComponent implements OnInit {
     var tripService = new TripService(http, baseUrl);
     var now = new Date();
     this.myTripsInProgress = new Array<TripDTO>();
-    var userService = new UserService(http, baseUrl);
-    userService.getUser().then(u => MyAccount.getInstance().userId = u.id);
     
     tripService.getMyTrips().then(trips => {
       this.myFutureTrips = trips;
-      console.log(trips);
+      console.log(this.myFutureTrips);
+      if (trips.length > 0) {
+        trips.forEach(element => {
+          if (new Date(element.startDate) < now && new Date(element.endDate) > now) {
+            this.myTripsInProgress.push(element);
+          }
+        });
+      }
     });
     
   }

@@ -8,7 +8,7 @@
             </th>
             <th>
                 <h1>
-                    My future trips
+                    My trips
                 </h1>
             </th>
         </tr>
@@ -16,7 +16,7 @@
             <th>
                 <div class="myTripsInProgressContainer">
                     <div class="cards" *ngFor="let item of myTripsInProgress">
-                        <div class="animate__animated animate__flipInX animate__delay-.5s" (click)="navigateToCustomizeById(item)">
+                        <div class="animate__animated animate__flipInX animate__delay-.5s" (click)="navigateToCustomizeById(item.id)">
                             <app-trip-card [trip]="item"></app-trip-card>
                         </div>
                     </div>
