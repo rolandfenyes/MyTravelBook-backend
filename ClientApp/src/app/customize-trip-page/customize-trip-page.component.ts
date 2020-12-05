@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AccommodationDTO, TripDTO } from '../model/dtos';
+import { AccommodationDTO, TravelDTO, TripDTO } from '../model/dtos';
 import { OutgoingTypes, Outgoing } from '../model/outgoing';
-import { Trip, TravelType, Travelling, Accommodation, AccommodationType, TravellingByCar, TravellingByBus, TravellingByTrain, TravellingByFerry } from '../model/trip';
+import { Trip, TravelType, Travelling, Accommodation, AccommodationType } from '../model/trip';
 import { MyAccount, User } from '../model/user';
 import { TripService } from '../services/TripService';
 
@@ -23,7 +23,7 @@ export class CustomizeTripPageComponent implements OnInit {
   selectedTravelType!: string;
   actualShownTravel!: TravelType;
 
-  selectedTravel: Travelling = new Travelling(0, "", "", [], TravelType.CAR);
+  selectedTravel: Travelling = new Travelling(new TravelDTO());
   selectedAccommodation: AccommodationDTO = new AccommodationDTO();
   
   accommodationTypes = AccommodationType;
@@ -65,18 +65,17 @@ export class CustomizeTripPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
+  }
+
+  ngOnInit(): void {
+    this.trip = new Trip(new TripDTO());
     var idString: string;
     idString = this.route.snapshot.paramMap.get('id')!;
     var id = Number(idString);
     
     this.tripService.getTrip(id).then(tripDto => {
       this.trip = new Trip(tripDto);
-      console.log("yayy");
     });
-  }
-
-  ngOnInit(): void {
-    
 
     this.buttonDictionary = { ['addNewTravelButton']: "customizeTravelTable", ['addNewAccommodationButton']: "customizeAccommodationTable", ['addNewOutGoingButton']: "customizeOutgoingTable"};
   }
@@ -205,24 +204,7 @@ export class CustomizeTripPageComponent implements OnInit {
   createNewTravel() {
     var newTravel: Travelling;
     const friendsArray = this.getFriendsInArray();
-    switch(this.travelType) {
-      case TravelType.CAR: {
-        newTravel = new TravellingByCar(this.trip.travels.length + 1, this.startPoint, this.destination, friendsArray, this.distance, this.consumption, this.fuelPrice, this.vignettePrice);
-        break;
-      }
-      case TravelType.BUS: {
-        newTravel = new TravellingByBus(this.trip.travels.length + 1, this.startPoint, this.destination, friendsArray, this.ticketPricePerPerson, this.seatReservationPerPerson);
-        break;
-      }
-      case TravelType.TRAIN: {
-        newTravel = new TravellingByTrain(this.trip.travels.length + 1, this.startPoint, this.destination, friendsArray, this.ticketPricePerPerson, this.seatReservationPerPerson);
-        break;
-      }
-      case TravelType.FERRY: {
-        newTravel = new TravellingByFerry(this.trip.travels.length + 1, this.startPoint, this.destination, friendsArray, this.ticketPricePerPerson, this.seatReservationPerPerson);
-        break;
-      }
-    }
+    //TODO
     this.trip.addNewTravel(newTravel!);
 
   }

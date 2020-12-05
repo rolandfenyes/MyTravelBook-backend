@@ -1,4 +1,4 @@
-import { AccommodationDTO, TripDTO } from './dtos';
+import { AccommodationDTO, TravelDTO, TripDTO } from './dtos';
 import { Outgoing } from './outgoing';
 import { MyAccount, User } from './user';
 
@@ -18,10 +18,17 @@ export class Trip {
         this.tripName = tripDto.tripName;
         this.accommodations = tripDto.accommodationDTOs;
         this.startDate = tripDto.startDate;
-        this.travels = new Array<Travelling>();
         this.participantsDictionary = {};
         this.participants = new Array<User>();
         this.outgoings = new Array<Outgoing>();
+
+        if (tripDto.travelDTOs) {
+            this.travels = new Array<Travelling>();
+            tripDto.travelDTOs.forEach(element => {
+                this.travels.push(new Travelling(element));
+            })
+        }
+
         if (tripDto.participants) {
             var newUsers = new Array<User>();
             tripDto.participants.forEach(element => {
@@ -54,26 +61,8 @@ export class Trip {
         this.travels.push(travel);
     }
 
-    addTravel(travelType: TravelType) {
-        var userArray = new Array<User>();
-        userArray.push(MyAccount.getInstance().user);
-        userArray.push(MyAccount.getInstance().user);
-        userArray.push(MyAccount.getInstance().user);
-        var id = this.travels.length + 1;
-        switch(travelType) {
-            case TravelType.CAR: {
-                this.travels.push(new TravellingByCar(id, "Budapest", "Wien", userArray, 220.4, 7.7, 1.2, 10));
-                break;
-            }
-            case TravelType.TRAIN: {
-                this.travels.push(new TravellingByTrain(id, "Wien", "Frankfurt", userArray, 100, 10));
-                break;
-            }
-        }
-    }
-
     addAccommodation(accommodation: Accommodation) {
-        this.accommodations.push(accommodation);
+        //TODO
     }
 
     addNewOutgoing(outgoing: Outgoing) {
@@ -133,85 +122,27 @@ export class Travelling {
     ticketPricePerPerson!: number;
     seatReservationPerPerson!: number;
 
-    constructor(id: number, startPoint: string, destination: string, participants: Array<User>, travelType: TravelType) {
-        this.startPoint = startPoint;
-        this.destination = destination;
-        this.participants = participants;
-        this.travelType = travelType;
+    constructor(travelDTO: TravelDTO) {
+        this.startPoint = travelDTO.startPoint;
+        this.destination = travelDTO.destination;
+        if (travelDTO.participants) {
+            this.participants = new Array<User>();
+            travelDTO.participants.forEach(element => {
+                this.participants.push(new User(element));
+            });
+        }
+        this.travelType = TravelType[travelDTO.travelType];
         this.increaseCostForParticipants();
     }
 
     increaseCostForParticipants() {
-        this.participants.forEach(participant => {
-            participant.increaseTravelCost(this.pricePerPerson);
-        });
+        if (this.participants) {
+            this.participants.forEach(participant => {
+                participant.increaseTravelCost(this.pricePerPerson);
+            });
+        }
     }
 
-}
-
-export class TravellingByCar extends Travelling {
-    
-    constructor(id: number, startPoint: string, destination: string, participants: Array<User>, distance: number, consumption: number, fuelPrice: number, vignettePrice: number) {
-        super(id, startPoint, destination, participants, TravelType.CAR)
-        this.distance = distance;
-        this.consumption = consumption;
-        this.fuelPrice = fuelPrice;
-        this.vignettePrice = vignettePrice;
-        this.calculatePricePerPerson();
-    }
-
-    calculatePricePerPerson() {
-        const totalFuelPrice = this.distance/100*this.consumption*this.fuelPrice;
-        const pricePerPerson = (Number(totalFuelPrice)+Number(this.vignettePrice))/this.participants.length;
-        this.pricePerPerson = Number(Number.parseFloat(String(pricePerPerson)).toFixed(2));
-        this.increaseCostForParticipants();
-    }
-
-}
-
-export class TravellingByTrain extends Travelling {
-    constructor(id: number, startPoint: string, destination: string, participants: Array<User>, ticketPricePerPerson: number, seatReservationPerPerson: number) {
-        super(id, startPoint, destination, participants, TravelType.TRAIN)
-        this.ticketPricePerPerson = ticketPricePerPerson;
-        this.seatReservationPerPerson = seatReservationPerPerson;
-        this.calculatePricePerPerson();
-    }
-
-    calculatePricePerPerson() {
-        const pricePerPerson = this.ticketPricePerPerson + this.seatReservationPerPerson;
-        this.pricePerPerson = Number(Number.parseFloat(String(pricePerPerson)).toFixed(2));
-        this.increaseCostForParticipants();
-    }
-}
-
-export class TravellingByBus extends Travelling {
-    constructor(id: number, startPoint: string, destination: string, participants: Array<User>, ticketPricePerPerson: number, seatReservationPerPerson: number) {
-        super(id, startPoint, destination, participants, TravelType.BUS)
-        this.ticketPricePerPerson = ticketPricePerPerson;
-        this.seatReservationPerPerson = seatReservationPerPerson;
-        this.calculatePricePerPerson();
-    }
-
-    calculatePricePerPerson() {
-        const pricePerPerson = this.ticketPricePerPerson + this.seatReservationPerPerson;
-        this.pricePerPerson = Number(Number.parseFloat(String(pricePerPerson)).toFixed(2));
-        this.increaseCostForParticipants();
-    }
-}
-
-export class TravellingByFerry extends Travelling {
-    constructor(id: number, startPoint: string, destination: string, participants: Array<User>, ticketPricePerPerson: number, seatReservationPerPerson: number) {
-        super(id, startPoint, destination, participants, TravelType.FERRY)
-        this.ticketPricePerPerson = ticketPricePerPerson;
-        this.seatReservationPerPerson = seatReservationPerPerson;
-        this.calculatePricePerPerson();
-    }
-
-    calculatePricePerPerson() {
-        const pricePerPerson = this.ticketPricePerPerson + this.seatReservationPerPerson;
-        this.pricePerPerson = Number(Number.parseFloat(String(pricePerPerson)).toFixed(2));
-        this.increaseCostForParticipants();
-    }
 }
 
 export enum TravelType {

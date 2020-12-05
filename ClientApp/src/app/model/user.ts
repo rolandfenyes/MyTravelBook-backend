@@ -19,7 +19,7 @@ export class User {
         this.nickname = userDto.nickname;
         this.birth = userDto.birth;
         var today = new Date();
-        this.actualAge = today.getFullYear() - this.birth.getFullYear();
+        this.actualAge = (Number(today.getFullYear) - Number(new Date(this.birth).getFullYear));
         this.isAdult = (this.actualAge >= 18) ? true : false;
         this.myTrips = new Array<Trip>();
         this.myTripsInProgress = new Array<Trip>();
