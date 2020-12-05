@@ -18,13 +18,32 @@ export class MyTripsPageComponent implements OnInit {
   userID!: UserIdDto;
   //myFutureTrips!: Array<Trip>;
   public myFutureTrips: TripDTO[];
+  tripService: TripService;
+  userService: UserService;
 
   constructor(private router: Router, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
-    var tripService = new TripService(http, baseUrl);
-    var now = new Date();
+    this.tripService = new TripService(http, baseUrl);
+    this.userService = new UserService(http, baseUrl);
     this.myTripsInProgress = new Array<TripDTO>();
+  }
+
+  ngOnInit(): void {
+    //this.myTripsInProgress = MyAccount.getInstance().user.myTripsInProgress;
+    //this.myFutureTrips = MyAccount.getInstance().user.myTrips; 
+    console.log(MyAccount.getInstance().userId);
+    if (MyAccount.getInstance().userId === null) {
+      this.userService.getUser().then(u => {
+        this.downloadTrips();
+      })
+    } else {
+      this.downloadTrips();
+    }
     
-    tripService.getMyTrips().then(trips => {
+  }
+
+  downloadTrips() {
+    var now = new Date();
+    this.tripService.getMyTrips().then(trips => {
       this.myFutureTrips = trips;
       console.log(this.myFutureTrips);
       if (trips.length > 0) {
@@ -35,12 +54,6 @@ export class MyTripsPageComponent implements OnInit {
         });
       }
     });
-    
-  }
-
-  ngOnInit(): void {
-    //this.myTripsInProgress = MyAccount.getInstance().user.myTripsInProgress;
-    //this.myFutureTrips = MyAccount.getInstance().user.myTrips; 
   }
 
   navigateToCustomizeById(id: number) {
