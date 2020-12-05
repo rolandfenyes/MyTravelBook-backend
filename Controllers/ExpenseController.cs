@@ -94,6 +94,17 @@ namespace MyTravelBook.Controllers
             dbContext.TripExpenseConnectionTable.Add(tripExpenseConnection);
 
             dbContext.SaveChanges();
+
+            if (value.ApplicationUserDTOs.Count > 0)
+            {
+                foreach (var user in value.ApplicationUserDTOs)
+                {
+                    var userIdDto = new UserIdDTO();
+                    userIdDto.Id = user.ID;
+                    Put(expense.ID, userIdDto);
+                }
+            }
+
             return expense.ID;
         }
 
@@ -114,7 +125,11 @@ namespace MyTravelBook.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var users = dbContext.Users.ToList();
+            var expenses = dbContext.Expenses.ToList();
             var expense = dbContext.Expenses.Where(e => e.ID == id).FirstOrDefault();
+            var expenseConnection = dbContext.UserExpenseConnectionTable.Where(e => e.Expense.ID == id).FirstOrDefault();
+            dbContext.UserExpenseConnectionTable.Remove(expenseConnection);
             dbContext.Expenses.Remove(expense);
             dbContext.SaveChanges();
         }

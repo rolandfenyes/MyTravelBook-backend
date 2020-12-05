@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AccommodationDTO, TravelDTO, TripDTO, UserDTO } from '../model/dtos';
+import { AccommodationDTO, TravelDTO, TripDTO, UserDTO, ExpenseDTO } from '../model/dtos';
 import { OutgoingTypes, Outgoing } from '../model/outgoing';
 import { Trip, TravelType, Travelling, Accommodation, AccommodationType } from '../model/trip';
 import { MyAccount, User } from '../model/user';
 import { AccommodationService } from '../services/AccommodationService';
+import { OutgoingService } from '../services/OutgoingService';
 import { TravelService } from '../services/TravelService';
 import { TripService } from '../services/TripService';
 
@@ -66,12 +67,14 @@ export class CustomizeTripPageComponent implements OnInit {
   tripService: TripService;
   travelService: TravelService;
   accommodationService: AccommodationService;
+  outgoingService: OutgoingService;
   id: number;
 
   constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
     this.travelService = new TravelService(http, baseUrl);
     this.accommodationService = new AccommodationService(http, baseUrl);
+    this.outgoingService = new OutgoingService(http, baseUrl);
   }
 
   ngOnInit(): void {
@@ -301,9 +304,55 @@ export class CustomizeTripPageComponent implements OnInit {
   }
 
   createNewOutgoing() {
-    const friendsArray = this.getFriendsInArray();
-    var newOutgoing = new Outgoing(this.outgoingName, friendsArray, this.outgoingPrice, this.outgoingType, this.location);
-    this.trip.addNewOutgoing(newOutgoing);
+    //const friendsArray = this.getFriendsInArray();
+    //var newOutgoing = new Outgoing(this.outgoingName, friendsArray, this.outgoingPrice, this.outgoingType, this.location);
+    //this.trip.addNewOutgoing(newOutgoing);
+
+    var newOutgoing = new ExpenseDTO();
+    newOutgoing.id = 0;
+    newOutgoing.expenseName = this.outgoingName;
+    newOutgoing.price = Number(this.outgoingPrice);
+    newOutgoing.location = this.location;
+    newOutgoing.tripID = this.id;
+
+    switch(this.outgoingType) {
+      case OutgoingTypes.FOOD: {
+        newOutgoing.expenseType = 0;
+        break;
+      }
+      case OutgoingTypes.SHOPPING: {
+        newOutgoing.expenseType = 1;
+        break;
+      }
+      case OutgoingTypes.RESTAURANT: {
+        newOutgoing.expenseType = 2;
+        break;
+      }
+      case OutgoingTypes.CULTURE: {
+        newOutgoing.expenseType = 3;
+        break;
+      }
+      case OutgoingTypes.WELLNESS: {
+        newOutgoing.expenseType = 4;
+        break;
+      }
+      case OutgoingTypes.ENTERTAINMENT: {
+        newOutgoing.expenseType = 5;
+        break;
+      }
+    }
+
+    newOutgoing.applicationUserDTOs = [];
+    this.selectedFriends.forEach(element => {
+      var userDTO = new UserDTO();
+      userDTO.id = element.ID;
+      userDTO.birth = element.birth;
+      userDTO.nickname = element.nickname;
+      newOutgoing.applicationUserDTOs.push(userDTO);
+    });
+    console.log(newOutgoing);
+    this.outgoingService.addNewOutgoing(newOutgoing);
+    this.trip.outgoings.push(new Outgoing(newOutgoing));
   }
 
 }

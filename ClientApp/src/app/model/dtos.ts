@@ -50,7 +50,7 @@ export class UserIdDto {
   id: string;
 }
   
-export interface ExpenseDTO {
+export class ExpenseDTO {
     id: number;
     expenseName: string;
     location: string;

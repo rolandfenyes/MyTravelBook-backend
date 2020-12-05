@@ -45,6 +45,13 @@ export class Trip {
             this.setParticipantsDictionary(newUsers);
             this.participants = newUsers;
         }
+
+        if (tripDto.expenses) {
+            this.outgoings = new Array<Outgoing>();
+            tripDto.expenses.forEach(element => {
+                this.outgoings.push(new Outgoing(element));
+            })
+        }
     }
 
     setParticipantsDictionary(participantsDictionaryArray: Array<User>) {
