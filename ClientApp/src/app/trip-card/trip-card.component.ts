@@ -18,7 +18,6 @@ export class TripCardComponent implements OnInit {
   ngOnInit() {
     this.trip.startDate = new Date(this.trip.startDate);
     this.trip.endDate = new Date(this.trip.endDate);
-    console.log(this.trip.endDate);
     this.dateRange = this.trip.startDate.toDateString() + " - " + this.trip.endDate.toDateString();
   }
 
