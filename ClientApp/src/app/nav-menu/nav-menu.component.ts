@@ -10,6 +10,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 export class NavMenuComponent {
   isExpanded = false;
   public isAuthenticated: Observable<boolean>;
+  isCollapsed = true;
 
   constructor(private authorizeService: AuthorizeService){
   }

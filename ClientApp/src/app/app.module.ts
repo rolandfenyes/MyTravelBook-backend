@@ -23,6 +23,7 @@ import { TripCardComponent } from './trip-card/trip-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FriendsComponent } from './friends/friends.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FriendsComponent } from './friends/friends.component';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    NgbModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
