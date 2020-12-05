@@ -102,9 +102,15 @@ namespace MyTravelBook.Controllers
                     var userIdDto = new UserIdDTO();
                     userIdDto.Id = user.ID;
                     Put(expense.ID, userIdDto);
+                    var tripUserCostID = dbContext.TripUserCostConnectionTable.Where(u => u.UserID == user.ID).FirstOrDefault().CostID;
+                    var usersCost = dbContext.Costs.Where(c => c.ID == tripUserCostID).FirstOrDefault();
+                    usersCost.ExpenseCost += expense.Price / value.ApplicationUserDTOs.Count;
+                    usersCost.TotalCost += expense.Price / value.ApplicationUserDTOs.Count;
+
+                    dbContext.Update(usersCost);
                 }
             }
-
+            dbContext.SaveChanges();
             return expense.ID;
         }
 

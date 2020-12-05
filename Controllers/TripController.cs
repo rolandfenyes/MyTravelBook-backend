@@ -226,6 +226,17 @@ namespace MyTravelBook.Controllers
             tripUserConnection.Trip = trip;
             tripUserConnection.User = user;
             dbContext.TripUserConnectionTable.Add(tripUserConnection);
+
+            var tripUserCostConnection = new TripUserCostConnectionTable();
+            var cost = new Cost();
+            dbContext.Costs.Add(cost);
+            dbContext.SaveChanges();
+
+            tripUserCostConnection.TripID = id;
+            tripUserCostConnection.UserID = value.Id;
+            tripUserCostConnection.CostID = cost.ID;
+            dbContext.TripUserCostConnectionTable.Add(tripUserCostConnection);
+
             dbContext.SaveChanges();
         }
 

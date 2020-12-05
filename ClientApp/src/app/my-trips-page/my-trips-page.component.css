@@ -42,6 +42,6 @@ h1 {
     color: white;
 }
 
-.cards {
-    
+@media only screen and (max-width: 1019px) {
+
 }

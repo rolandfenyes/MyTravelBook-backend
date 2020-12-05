@@ -27,11 +27,13 @@ namespace MyTravelBook.Data
         public DbSet<UserExpenseConnectionTable> UserExpenseConnectionTable { get; set; }
         public DbSet<UserTravelConnectionTable> UserTravelConnectionTable { get; set; }
         public DbSet<TripUserConnectionTable> TripUserConnectionTable { get; set; }
+        public DbSet<TripUserCostConnectionTable> TripUserCostConnectionTable { get; set; }
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Travel> Travels { get; set; }
         public DbSet<Accommodation> Accommodations { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Cost> Costs { get; set; }
 
     }
 }

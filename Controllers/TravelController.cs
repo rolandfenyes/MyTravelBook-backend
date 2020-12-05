@@ -108,11 +108,29 @@ namespace MyTravelBook.Controllers
                     var userIdDto = new UserIdDTO();
                     userIdDto.Id = user.ID;
                     Put(travel.ID, userIdDto);
+                    var tripUserCostID = dbContext.TripUserCostConnectionTable.Where(u => u.UserID == user.ID).FirstOrDefault().CostID;
+                    var usersCost = dbContext.Costs.Where(c => c.ID == tripUserCostID).FirstOrDefault();
+                    if (travel.TravelType == TravelType.CAR)
+                    {
+                        var carPricePerPerson = GetPricePerPersonIfCar(travel.Distance, travel.Consumption, travel.FuelPrice, travel.VignettePrice, value.Participants.Count);
+                        usersCost.TravelCost += carPricePerPerson;
+                        usersCost.TotalCost += carPricePerPerson;
+                    }
+                    else
+                    {
+                        usersCost.TravelCost += travel.TicketPricePerPeson + travel.SeatReservationPerPerson;
+                        usersCost.TotalCost += travel.TicketPricePerPeson + travel.SeatReservationPerPerson;
+                    }
+                    dbContext.Update(usersCost);
                 }
             }
-
-            
+            dbContext.SaveChanges();
             return travel.ID;
+        }
+
+        public double GetPricePerPersonIfCar(double destination, double consumption, double fuelPrice, double vignettePrice, int participantsNumber)
+        {
+            return (destination/100*consumption*fuelPrice+vignettePrice)/participantsNumber;
         }
 
         // PUT api/<TravelController>/5

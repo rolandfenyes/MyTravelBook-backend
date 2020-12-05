@@ -99,9 +99,15 @@ namespace MyTravelBook.Controllers
                     var userIdDto = new UserIdDTO();
                     userIdDto.Id = user.ID;
                     Put(accommodation.ID, userIdDto);
+                    var tripUserCostID = dbContext.TripUserCostConnectionTable.Where(u => u.UserID == user.ID).FirstOrDefault().CostID;
+                    var usersCost = dbContext.Costs.Where(c => c.ID == tripUserCostID).FirstOrDefault();
+                    usersCost.AccommodationCost += accommodation.Price;
+                    usersCost.TotalCost += accommodation.Price;
+                    
+                    dbContext.Update(usersCost);
                 }
             }
-
+            dbContext.SaveChanges();
             return accommodation.ID;
         }
 
