@@ -22,6 +22,7 @@ import { TripCardComponent } from './trip-card/trip-card.component';
 // Datepicker module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FriendsComponent } from './friends/friends.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     PersonCostsCardComponent,
     TravelCardComponent,
     TripCardComponent,
+    FriendsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -48,7 +50,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
       { path: '', component: HomeComponent, pathMatch: 'full'}, //canActivate: [AuthorizeGuard]
       { path: 'my-trips', component: MyTripsPageComponent},
       { path: 'create-new-trip', component: NewTripPageComponent},
-      { path: 'customize-trip/:id', component: CustomizeTripPageComponent}
+      { path: 'customize-trip/:id', component: CustomizeTripPageComponent},
+      { path: 'friends', component: FriendsComponent}
     ])
   ],
   providers: [

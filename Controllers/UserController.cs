@@ -74,7 +74,7 @@ namespace MyTravelBook.Controllers
 
         // PUT api/<UserController>/addFriend/5
         [HttpPut("addFriend/{id}")]
-        public void Put(string id, [FromBody] UserIdDTO value)
+        public UserIdDTO Put(string id, [FromBody] UserIdDTO value)
         {
             var friendshipConnection = new FriendshipConnectionTable();
             var friendshipConnection2 = new FriendshipConnectionTable();
@@ -88,6 +88,10 @@ namespace MyTravelBook.Controllers
             dbContext.FriendshipConnectionTable.Add(friendshipConnection);
             dbContext.FriendshipConnectionTable.Add(friendshipConnection2);
             dbContext.SaveChanges();
+
+            var userIdDto = new UserIdDTO();
+            userIdDto.Id = friend.Id;
+            return userIdDto;
         }
 
         [HttpPut("{id}")]
