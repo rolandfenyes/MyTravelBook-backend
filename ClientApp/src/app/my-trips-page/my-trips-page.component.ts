@@ -38,8 +38,7 @@ export class MyTripsPageComponent implements OnInit {
     //this.myFutureTrips = MyAccount.getInstance().user.myTrips; 
   }
 
-  navigateToCustomizeById(item: Trip) {
-    var id = MyAccount.getInstance().user.myTrips.indexOf(item);
+  navigateToCustomizeById(id: number) {
     this.router.navigateByUrl('customize-trip/' + id.toString());
   }
 

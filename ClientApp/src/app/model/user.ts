@@ -1,3 +1,4 @@
+import { UserDTO } from './dtos';
 import { Trip } from './trip';
 
 export class User {
@@ -14,9 +15,9 @@ export class User {
     accommodationCost = 0;
     outgoingsCost = 0;
 
-    constructor(nickname: string, birth: Date) {
-        this.nickname = nickname;
-        this.birth = birth;
+    constructor(userDto: UserDTO) {
+        this.nickname = userDto.nickname;
+        this.birth = userDto.birth;
         var today = new Date();
         this.actualAge = today.getFullYear() - this.birth.getFullYear();
         this.isAdult = (this.actualAge >= 18) ? true : false;
@@ -75,12 +76,6 @@ export class MyAccount {
             MyAccount.instance = new MyAccount();
         }
         return MyAccount.instance;
-    }
-
-    createNewUser(nickname: string, birth: Date) {
-        this.user = new User(nickname, birth);
-
-        
     }
 
 }

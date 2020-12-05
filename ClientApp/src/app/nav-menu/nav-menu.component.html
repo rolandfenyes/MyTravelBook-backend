@@ -10,12 +10,18 @@
         <li class="nav-item active">
             <a class="nav-link" [routerLink]="['/']">Home<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/my-trips']">My trips<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/create-new-trip']">New trip<span class="sr-only">(current)</span></a>
-        </li>
+        <div class="loggedIn" *ngIf="(isAuthenticated | async)">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" [routerLink]="['/my-trips']">My trips<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" [routerLink]="['/create-new-trip']">New trip<span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+          
+        </div>
+        
       </ul>
       <div id="notLoggedIn">
         <div

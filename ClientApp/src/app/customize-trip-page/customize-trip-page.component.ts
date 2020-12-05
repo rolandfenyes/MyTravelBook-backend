@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AccommodationDTO, TripDTO } from '../model/dtos';
 import { OutgoingTypes, Outgoing } from '../model/outgoing';
 import { Trip, TravelType, Travelling, Accommodation, AccommodationType, TravellingByCar, TravellingByBus, TravellingByTrain, TravellingByFerry } from '../model/trip';
 import { MyAccount, User } from '../model/user';
+import { TripService } from '../services/TripService';
 
 @Component({
   selector: 'app-customize-trip-page',
@@ -21,7 +24,7 @@ export class CustomizeTripPageComponent implements OnInit {
   actualShownTravel!: TravelType;
 
   selectedTravel: Travelling = new Travelling(0, "", "", [], TravelType.CAR);
-  selectedAccommodation: Accommodation = new Accommodation("", "", 0, AccommodationType.HOTEL, [], 0);
+  selectedAccommodation: AccommodationDTO = new AccommodationDTO();
   
   accommodationTypes = AccommodationType;
 
@@ -58,14 +61,23 @@ export class CustomizeTripPageComponent implements OnInit {
   outgoingPrice!: number;
   outgoingType!: OutgoingTypes;
 
-  constructor(private route: ActivatedRoute) { }
+  tripService: TripService;
 
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+    this.tripService = new TripService(http, baseUrl);
     var idString: string;
     idString = this.route.snapshot.paramMap.get('id')!;
     var id = Number(idString);
+    
+    this.tripService.getTrip(id).then(tripDto => {
+      this.trip = new Trip(tripDto);
+      console.log("yayy");
+    });
+  }
 
-    this.trip = MyAccount.getInstance().user.myTrips[id];
+  ngOnInit(): void {
+    
+
     this.buttonDictionary = { ['addNewTravelButton']: "customizeTravelTable", ['addNewAccommodationButton']: "customizeAccommodationTable", ['addNewOutGoingButton']: "customizeOutgoingTable"};
   }
 

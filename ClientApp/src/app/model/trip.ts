@@ -1,3 +1,4 @@
+import { AccommodationDTO, TripDTO } from './dtos';
 import { Outgoing } from './outgoing';
 import { MyAccount, User } from './user';
 
@@ -10,20 +11,25 @@ export class Trip {
     
     participantsDictionary!: { [nickname: string] : User};
     participants!: Array<User>;
-    accommodations: Array<Accommodation>;
+    accommodations: Array<AccommodationDTO>;
     outgoings: Array<Outgoing>;
 
-    constructor(tripName: string, startDate: Date, participants?: Array<User>) {
-        this.tripName = tripName;
-        this.accommodations = new Array<Accommodation>();
-        this.startDate = startDate;
+    constructor(tripDto: TripDTO) {
+        this.tripName = tripDto.tripName;
+        this.accommodations = tripDto.accommodationDTOs;
+        this.startDate = tripDto.startDate;
         this.travels = new Array<Travelling>();
         this.participantsDictionary = {};
         this.participants = new Array<User>();
         this.outgoings = new Array<Outgoing>();
-        if (participants) {
-            this.setParticipantsDictionary(participants);
-            this.participants = participants;
+        if (tripDto.participants) {
+            var newUsers = new Array<User>();
+            tripDto.participants.forEach(element => {
+                newUsers.push(new User(element));
+            });
+            
+            this.setParticipantsDictionary(newUsers);
+            this.participants = newUsers;
         }
     }
 

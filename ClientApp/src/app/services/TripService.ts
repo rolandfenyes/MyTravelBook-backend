@@ -24,6 +24,10 @@ export class TripService {
         return this.http.get<TripDTO[]>(this.baseUrl + this.tripUrl + '/usersTrip/' + MyAccount.getInstance().userId).toPromise();
     }
 
+    async getTrip(id: number): Promise<TripDTO> {
+      return this.http.get<TripDTO>(this.baseUrl + this.tripUrl + "/" + id).toPromise();
+    }
+
     async addNewTrip(tripDto: TripDTO): Promise<number> {
         var id = this.http.post<number>(this.baseUrl + this.tripUrl, tripDto).toPromise();
         var userIdDto = new UserIdDto();
