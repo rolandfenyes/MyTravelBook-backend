@@ -25,8 +25,11 @@ export class UserService {
     return this.http.get<UserDTO[]>(this.baseUrl + this.userUrl + '/friends/' + MyAccount.getInstance().userId).toPromise();
   }
 
-  public addFriend(): Promise<UserIdDto> {
-    return this.http.get<UserIdDto>(this.baseUrl + this.userUrl + '/addFriend/' + MyAccount.getInstance().userId).toPromise();
+  public addFriend(nickname: string): Promise<UserIdDto> {
+    var user = new UserDTO();
+    user.id = "";
+    user.nickname = nickname;
+    return this.http.put<UserIdDto>(this.baseUrl + this.userUrl + '/AddFriendByNickname/' + MyAccount.getInstance().userId, user).toPromise();
   }
 
 

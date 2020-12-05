@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDTO } from '../model/dtos';
-import { MyAccount } from '../model/user';
+import { MyAccount, User } from '../model/user';
 import { UserService } from '../services/UserService';
 
 @Component({
@@ -27,8 +27,12 @@ export class FriendsComponent implements OnInit {
     this.userService.getFriends().then( f => this.myFriends = f);
   }
 
-  addFriend(name: string) {
-
+  addFriend() {
+    this.userService.addFriend(this.friendName).then(friend => {
+      var friendDto = new UserDTO();
+      friendDto.nickname = this.friendName;
+      this.myFriends.push(friendDto);
+    })
   }
 
 }

@@ -94,6 +94,15 @@ namespace MyTravelBook.Controllers
             return userIdDto;
         }
 
+        [HttpPut("AddFriendByNickname/{id}")]
+        public UserIdDTO AddFriendByNickname(string id, [FromBody] UserDTO friendName)
+        {
+            var friend = dbContext.Users.Where(u => u.Nickname == friendName.Nickname).FirstOrDefault().Id;
+            var friendIdDto = new UserIdDTO();
+            friendIdDto.Id = friend;
+            return Put(id, friendIdDto);
+        }
+
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] UserDTO value)
         {
