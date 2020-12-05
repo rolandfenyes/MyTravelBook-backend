@@ -1,1 +1,37 @@
-<p>friends works!</p>
+
+<body>
+    <div class="container">
+        <table>
+            <tr>
+                <th>
+                    <h2>
+                        Friends
+                    </h2>
+                </th>
+                <th>
+                    <h2>
+                        Add friend
+                    </h2>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <div class="friendsScroll">
+                        <div class="friends" *ngFor="let item of myFriends">
+                            <app-friend-card [user]="item" [isInviation]="true"></app-friend-card>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Type your friend's name to add</label>
+                        <input [(ngModel)]="friendName" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Kis Béla">
+                    </div>
+                    <button type="button" class="btn" (click)="addFriend()">
+                        Add friend
+                    </button>
+                </th>
+            </tr>
+        </table>
+    </div>
+</body>

@@ -14,6 +14,7 @@ export class UserService {
 
   constructor(private http : HttpClient, @Inject('BASE_URL') private baseUrl: string) { 
     this.userUrl="api/user";
+    this.getUser();
   }
 
   public getUser(): Promise<UserIdDto> {

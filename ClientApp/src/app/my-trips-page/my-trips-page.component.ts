@@ -30,7 +30,6 @@ export class MyTripsPageComponent implements OnInit {
   ngOnInit(): void {
     //this.myTripsInProgress = MyAccount.getInstance().user.myTripsInProgress;
     //this.myFutureTrips = MyAccount.getInstance().user.myTrips; 
-    console.log(MyAccount.getInstance().userId);
     if (MyAccount.getInstance().userId === null) {
       this.userService.getUser().then(u => {
         this.downloadTrips();
