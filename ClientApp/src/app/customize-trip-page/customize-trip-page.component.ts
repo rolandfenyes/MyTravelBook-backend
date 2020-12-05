@@ -98,7 +98,11 @@ export class CustomizeTripPageComponent implements OnInit {
 
   clearSideBar() {
     document.getElementById('showAccommodationDetailsTable').classList.add('hidden');
-    document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.add('hidden');
+    try {
+      document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.add('hidden');
+    } catch {
+      
+    }
   }
 
   clearSelectedFriends() {
