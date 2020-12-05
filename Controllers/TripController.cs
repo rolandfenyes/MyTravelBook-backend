@@ -204,6 +204,15 @@ namespace MyTravelBook.Controllers
             var userIdDTO = new UserIdDTO();
             userIdDTO.Id = value.OrganiserID;
             Put(id: trip.ID, value: userIdDTO);
+            if (value.Participants.Count > 0)
+            {
+                foreach (var user in value.Participants)
+                {
+                    var userIdDto = new UserIdDTO();
+                    userIdDTO.Id = user.ID;
+                    Put(trip.ID, userIdDTO);
+                }
+            }
             return trip.ID;
         }
 

@@ -62,8 +62,6 @@ export class NewTripPageComponent implements OnInit {
     this.tripService.addNewTrip(tripDto).then(tripId => {
       this.router.navigateByUrl('customize-trip/'+ tripId.toString());
     });
-    
-    
 
   }
 
