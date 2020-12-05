@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TripDTO } from '../model/dtos';
+import { TripDTO, UserDTO } from '../model/dtos';
 import { Trip } from '../model/trip';
 import { MyAccount, User } from '../model/user';
 import { TripService } from '../services/TripService';
@@ -18,48 +18,48 @@ export class NewTripPageComponent implements OnInit {
   travelStart!: string;
   travelEnd!: string;
 
-  myFriends!: Array<User>;
-  invitedFriends!: Array<User>;
+  myFriends!: UserDTO[];
+  invitedFriends!: UserDTO[];
   minDate!: Date;
   tripService: TripService;
+  userService: UserService;
   userId!: string;
 
   constructor(private router: Router, private http : HttpClient, @Inject('BASE_URL') private baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
-    var userService = new UserService(http, baseUrl);
-    userService.getUser().then(u => this.userId = u.id);
+    this.userService = new UserService(http, baseUrl);
+    this.userService.getUser().then(u => this.userId = u.id);
   }
 
   ngOnInit(): void {
-    this.myFriends = new Array<User>();
-    this.invitedFriends = new Array<User>();
+    this.myFriends = [];
+    this.invitedFriends = [];
     this.minDate = new Date();
+    this.userService.getFriends().then( f => this.myFriends = f);
   }
 
-  inviteFriend(friend: User) {
+  inviteFriend(friend: UserDTO) {
     this.invitedFriends.push(friend);
     const index = this.myFriends.indexOf(friend, 0);
     this.myFriends.splice(index, 1);
   }
 
-  removeFriend(friend: User) {
+  removeFriend(friend: UserDTO) {
     const index = this.invitedFriends.indexOf(friend, 0);
     this.invitedFriends.splice(index, 1);
     this.myFriends.push(friend);
   }
 
   saveTripAndGoToCustomise() {
-    //TODO save
-    
     var tripDto = new TripDTO();
     tripDto.tripName = this.tripName;
     tripDto.startDate = new Date(this.travelStart);
     tripDto.endDate = new Date(this.travelEnd);
     tripDto.organiserID = this.userId;
+    tripDto.participants = this.invitedFriends;
 
     var id: number;
     this.tripService.addNewTrip(tripDto).then(tripId => {
-      console.log(id);
       this.router.navigateByUrl('customize-trip/'+ tripId.toString());
     });
     

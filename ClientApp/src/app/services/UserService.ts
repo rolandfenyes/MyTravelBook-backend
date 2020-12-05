@@ -20,13 +20,8 @@ export class UserService {
     return this.http.get<UserIdDto>(this.baseUrl + this.userUrl + '/getCurrentUserId').toPromise();
   }
 
-  public getFriends() {
-    if (MyAccount.getInstance().userId == null) {
-      this.getUser();
-    }
-    this.http.get<UserDTO[]>(this.baseUrl + this.userUrl + 'friends/' + this.userId.id).subscribe(result => {
-      return result;
-    })
+  public getFriends(): Promise<UserDTO[]> {
+    return this.http.get<UserDTO[]>(this.baseUrl + this.userUrl + '/friends/' + MyAccount.getInstance().userId).toPromise();
   }
 
 
