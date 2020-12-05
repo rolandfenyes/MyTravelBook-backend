@@ -22,8 +22,7 @@ html {
 }
 
 #notLoggedIn .form-inline a,
-#loggedIn .form-inline a,
-.text-dark a {
+#loggedIn .form-inline a {
   color: white !important;
 }
 
