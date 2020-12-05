@@ -12,16 +12,22 @@ export class Trip {
     
     participantsDictionary!: { [nickname: string] : User};
     participants!: Array<User>;
-    accommodations: Array<AccommodationDTO>;
+    accommodations: Array<Accommodation>;
     outgoings: Array<Outgoing>;
 
     constructor(tripDto: TripDTO) {
         this.tripName = tripDto.tripName;
-        this.accommodations = tripDto.accommodationDTOs;
         this.startDate = tripDto.startDate;
         this.participantsDictionary = {};
         this.participants = new Array<User>();
         this.outgoings = new Array<Outgoing>();
+
+        if (tripDto.accommodationDTOs) {
+            this.accommodations = new Array<Accommodation>();
+            tripDto.accommodationDTOs.forEach(element => {
+                this.accommodations.push(new Accommodation(element));
+            })
+        }
 
         if (tripDto.travelDTOs) {
             this.travels = new Array<Travelling>();
@@ -82,13 +88,45 @@ export class Accommodation {
     pricePerPersonPerNight: number = 0;
     pricePerPerson: number = 0;
 
-    constructor(accommodationName: string, accommodationLocation: string, nights: number, accommodationType: AccommodationType, participants: Array<User>, price: number) {
-        this.accommodationName = accommodationName;
-        this.accommodationLocation = accommodationLocation;
-        this.nights = nights;
-        this.accommodationType = accommodationType;
-        this.participants = participants;
-        this.price = price;
+    constructor(accommodationDto: AccommodationDTO) {
+        this.accommodationName = accommodationDto.accommodationName;
+        this.accommodationLocation = accommodationDto.accommodationLocation;
+        this.nights = accommodationDto.nights;
+        switch(accommodationDto.accommodationType) {
+            case 0: {
+              this.accommodationType = AccommodationType.HOTEL;
+              break;
+            }
+            case 1: {
+              this.accommodationType = AccommodationType.HOSTEL;
+              break;
+            }
+            case 2: {
+              this.accommodationType = AccommodationType.RESORT;
+              break;
+            }
+            case 3: {
+              this.accommodationType = AccommodationType.APARTMENT;
+              break;
+            }
+            case 4: {
+              this.accommodationType = AccommodationType.TENT;
+              break;
+            }
+            case 5: {
+              this.accommodationType = AccommodationType.COUCHSURFING;
+              break;
+            }
+          }
+
+        this.participants = new Array<User>();
+        if (accommodationDto.participants) {
+            this.participants = new Array<User>();
+            accommodationDto.participants.forEach(element => {
+                this.participants.push(new User(element));
+            });
+        }
+        this.price = accommodationDto.price;
         this.calculatePricePerPersonPerNight();
     }
 

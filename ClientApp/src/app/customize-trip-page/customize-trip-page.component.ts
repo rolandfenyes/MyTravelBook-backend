@@ -5,6 +5,7 @@ import { AccommodationDTO, TravelDTO, TripDTO, UserDTO } from '../model/dtos';
 import { OutgoingTypes, Outgoing } from '../model/outgoing';
 import { Trip, TravelType, Travelling, Accommodation, AccommodationType } from '../model/trip';
 import { MyAccount, User } from '../model/user';
+import { AccommodationService } from '../services/AccommodationService';
 import { TravelService } from '../services/TravelService';
 import { TripService } from '../services/TripService';
 
@@ -25,7 +26,7 @@ export class CustomizeTripPageComponent implements OnInit {
   actualShownTravel!: TravelType;
 
   selectedTravel: Travelling = new Travelling(new TravelDTO());
-  selectedAccommodation: AccommodationDTO = new AccommodationDTO();
+  selectedAccommodation: Accommodation = new Accommodation(new AccommodationDTO());
   
   accommodationTypes = AccommodationType;
 
@@ -64,11 +65,13 @@ export class CustomizeTripPageComponent implements OnInit {
 
   tripService: TripService;
   travelService: TravelService;
+  accommodationService: AccommodationService;
   id: number;
 
   constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
     this.travelService = new TravelService(http, baseUrl);
+    this.accommodationService = new AccommodationService(http, baseUrl);
   }
 
   ngOnInit(): void {
@@ -211,7 +214,23 @@ export class CustomizeTripPageComponent implements OnInit {
   createNewTravel() {
     var newTravel = new TravelDTO();
     newTravel.id = 0;
-    newTravel.travelType = 3;
+    switch(this.travelType) {
+      case TravelType.TRAIN: {
+        newTravel.travelType = 0;
+        break;
+      }
+      case TravelType.BUS: {
+        newTravel.travelType = 1;
+        break;
+      }
+      case TravelType.FERRY: {
+        newTravel.travelType = 2;
+        break;
+      }
+      case TravelType.CAR: {
+        newTravel.travelType = 3;
+      }
+    }
     newTravel.startPoint = this.startPoint;
     newTravel.destination = this.destination;
     newTravel.distance = (this.distance != null) ? Number(this.distance) : 0;
@@ -231,16 +250,54 @@ export class CustomizeTripPageComponent implements OnInit {
       newTravel.participants.push(userDTO);
     });
     this.travelService.addNewTravel(newTravel);
-    //TODO
-    //this.trip.addNewTravel(newTravel!);
-
+    this.trip.travels.push(new Travelling(newTravel));
   }
 
   createNewAccommodation() {
-    var newAccommodation: Accommodation;
-    const friendsArray = this.getFriendsInArray();
-    newAccommodation = new Accommodation(this.accommodationName, this.accommodationLocation, this.nights, this.accommodationType, friendsArray, this.accommodationPrice);
-    this.trip.addAccommodation(newAccommodation);
+    var newAccommodation = new AccommodationDTO();
+    newAccommodation.id = 0;
+    newAccommodation.accommodationName = this.accommodationName;
+    newAccommodation.accommodationLocation = this.accommodationLocation;
+    newAccommodation.nights = Number(this.nights);
+    newAccommodation.price = Number(this.accommodationPrice);
+    newAccommodation.tripID = this.id;
+    switch(this.accommodationType) {
+      case AccommodationType.HOTEL: {
+        newAccommodation.accommodationType = 0;
+        break;
+      }
+      case AccommodationType.HOSTEL: {
+        newAccommodation.accommodationType = 1;
+        break;
+      }
+      case AccommodationType.RESORT: {
+        newAccommodation.accommodationType = 2;
+        break;
+      }
+      case AccommodationType.APARTMENT: {
+        newAccommodation.accommodationType = 3;
+        break;
+      }
+      case AccommodationType.TENT: {
+        newAccommodation.accommodationType = 4;
+        break;
+      }
+      case AccommodationType.COUCHSURFING: {
+        newAccommodation.accommodationType = 5;
+        break;
+      }
+    }
+    newAccommodation.participants = [];
+    this.selectedFriends.forEach(element => {
+      var userDTO = new UserDTO();
+      userDTO.id = element.ID;
+      userDTO.birth = element.birth;
+      userDTO.nickname = element.nickname;
+      newAccommodation.participants.push(userDTO);
+    });
+    console.log(newAccommodation);
+    this.accommodationService.addNewAccommodation(newAccommodation);
+    this.trip.accommodations.push(new Accommodation(newAccommodation));
   }
 
   createNewOutgoing() {

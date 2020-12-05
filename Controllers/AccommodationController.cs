@@ -91,6 +91,17 @@ namespace MyTravelBook.Controllers
             dbContext.TripAccommodationConnectionTable.Add(tripAccommodationConnection);
 
             dbContext.SaveChanges();
+
+            if (value.Participants.Count > 0)
+            {
+                foreach (var user in value.Participants)
+                {
+                    var userIdDto = new UserIdDTO();
+                    userIdDto.Id = user.ID;
+                    Put(accommodation.ID, userIdDto);
+                }
+            }
+
             return accommodation.ID;
         }
 
