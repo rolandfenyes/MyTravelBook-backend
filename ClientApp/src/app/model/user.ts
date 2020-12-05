@@ -3,6 +3,7 @@ import { Trip } from './trip';
 
 export class User {
 
+    ID!: string;
     nickname!: string;
     birth!: Date;
     actualAge!: number;
@@ -16,6 +17,7 @@ export class User {
     outgoingsCost = 0;
 
     constructor(userDto: UserDTO) {
+        this.ID = userDto.id;
         this.nickname = userDto.nickname;
         this.birth = userDto.birth;
         var today = new Date();

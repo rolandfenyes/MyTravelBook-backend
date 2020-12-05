@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AccommodationDTO, TravelDTO, TripDTO } from '../model/dtos';
+import { AccommodationDTO, TravelDTO, TripDTO, UserDTO } from '../model/dtos';
 import { OutgoingTypes, Outgoing } from '../model/outgoing';
 import { Trip, TravelType, Travelling, Accommodation, AccommodationType } from '../model/trip';
 import { MyAccount, User } from '../model/user';
+import { TravelService } from '../services/TravelService';
 import { TripService } from '../services/TripService';
 
 @Component({
@@ -62,18 +63,21 @@ export class CustomizeTripPageComponent implements OnInit {
   outgoingType!: OutgoingTypes;
 
   tripService: TripService;
+  travelService: TravelService;
+  id: number;
 
   constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
+    this.travelService = new TravelService(http, baseUrl);
   }
 
   ngOnInit(): void {
     this.trip = new Trip(new TripDTO());
     var idString: string;
     idString = this.route.snapshot.paramMap.get('id')!;
-    var id = Number(idString);
+    this.id = Number(idString);
     
-    this.tripService.getTrip(id).then(tripDto => {
+    this.tripService.getTrip(this.id).then(tripDto => {
       this.trip = new Trip(tripDto);
     });
 
@@ -86,6 +90,7 @@ export class CustomizeTripPageComponent implements OnInit {
       document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.add('hidden');
     }
     this.selectedTravel = this.trip.travels[index];
+    console.log(this.selectedTravel);
     this.selectedTravelType = (this.selectedTravel.travelType == TravelType.CAR) ? TravelType.CAR : "PublicTransport";
     document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.remove('hidden');
   }
@@ -100,9 +105,7 @@ export class CustomizeTripPageComponent implements OnInit {
     document.getElementById('showAccommodationDetailsTable').classList.add('hidden');
     try {
       document.getElementById('showTravelDetailsTable'+this.selectedTravelType).classList.add('hidden');
-    } catch {
-      
-    }
+    } catch {}
   }
 
   clearSelectedFriends() {
@@ -206,10 +209,30 @@ export class CustomizeTripPageComponent implements OnInit {
   }
 
   createNewTravel() {
-    var newTravel: Travelling;
-    const friendsArray = this.getFriendsInArray();
+    var newTravel = new TravelDTO();
+    newTravel.id = 0;
+    newTravel.travelType = 3;
+    newTravel.startPoint = this.startPoint;
+    newTravel.destination = this.destination;
+    newTravel.distance = (this.distance != null) ? Number(this.distance) : 0;
+    newTravel.consumption = (this.consumption != null) ? Number(this.consumption) : 0;
+    newTravel.fuelPrice = (this.fuelPrice != null) ? Number(this.fuelPrice) : 0;
+    newTravel.vignettePrice = (this.vignettePrice != null) ? Number(this.vignettePrice) : 0;
+    newTravel.ticketPricePerPerson = (this.ticketPricePerPerson != null) ? Number(this.ticketPricePerPerson) : 0;
+    newTravel.seatReservationPerPerson = (this.seatReservationPerPerson != null) ? Number(this.seatReservationPerPerson) : 0;
+    newTravel.tripID = this.id;
+    newTravel.pricePerPerson = 0;
+    newTravel.participants = [];
+    this.selectedFriends.forEach(element => {
+      var userDTO = new UserDTO();
+      userDTO.id = element.ID;
+      userDTO.birth = element.birth;
+      userDTO.nickname = element.nickname;
+      newTravel.participants.push(userDTO);
+    });
+    this.travelService.addNewTravel(newTravel);
     //TODO
-    this.trip.addNewTravel(newTravel!);
+    //this.trip.addNewTravel(newTravel!);
 
   }
 

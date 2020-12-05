@@ -1,3 +1,5 @@
+import { TravelType } from "./trip";
+
 export class TripDTO {
     id: number;
     tripName: string;

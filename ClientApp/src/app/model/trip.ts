@@ -1,3 +1,4 @@
+import { threadId } from 'worker_threads';
 import { AccommodationDTO, TravelDTO, TripDTO } from './dtos';
 import { Outgoing } from './outgoing';
 import { MyAccount, User } from './user';
@@ -125,13 +126,40 @@ export class Travelling {
     constructor(travelDTO: TravelDTO) {
         this.startPoint = travelDTO.startPoint;
         this.destination = travelDTO.destination;
+        this.id = travelDTO.id;
+        this.pricePerPerson = travelDTO.pricePerPerson;
+        this.distance = travelDTO.distance;
+        this.consumption = travelDTO.consumption;
+        this.fuelPrice = travelDTO.fuelPrice;
+        this.vignettePrice = travelDTO.vignettePrice;
+        this.ticketPricePerPerson = travelDTO.ticketPricePerPerson;
+        this.seatReservationPerPerson = travelDTO.seatReservationPerPerson;
+        
         if (travelDTO.participants) {
             this.participants = new Array<User>();
             travelDTO.participants.forEach(element => {
                 this.participants.push(new User(element));
             });
         }
-        this.travelType = TravelType[travelDTO.travelType];
+        switch(travelDTO.travelType) {
+            case 0: { 
+                this.travelType = TravelType.TRAIN;
+                break;
+            }
+            case 1: { 
+                this.travelType = TravelType.BUS;
+                break;
+            }
+            case 2: { 
+                this.travelType = TravelType.FERRY;
+                break;
+            }
+            case 3: {
+                this.travelType = TravelType.CAR;
+                break;
+            }
+
+        }
         this.increaseCostForParticipants();
     }
 
@@ -145,8 +173,10 @@ export class Travelling {
 
 }
 
+
 export enum TravelType {
-    TRAIN = "Train", BUS = "Bus", FERRY = "Ship or Ferry", CAR = "Car"
+  TRAIN = "Train", BUS = "Bus", FERRY = "Ship or Ferry", CAR = "Car",
+  indexOf = "indexOf"
 }
 
 export enum AccommodationType {
