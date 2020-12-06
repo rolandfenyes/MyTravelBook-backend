@@ -1,4 +1,4 @@
-import { UserDTO } from './dtos';
+import { CostDTO, UserDTO } from './dtos';
 import { Trip } from './trip';
 
 export class User {
@@ -27,6 +27,13 @@ export class User {
         this.myTripsInProgress = new Array<Trip>();
         this.friendsList = new Array<User>();
         this.totalCost = 0;
+    }
+
+    addCosts(costDTO: CostDTO) {
+        this.totalCost = costDTO.totalCost;
+        this.travelCost = costDTO.travelCost;
+        this.accommodationCost = costDTO.accommodationCost;
+        this.outgoingsCost = costDTO.expenseCost;
     }
 
     addTrip(trip: Trip) {

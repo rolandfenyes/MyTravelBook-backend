@@ -85,9 +85,26 @@ export class CustomizeTripPageComponent implements OnInit {
     
     this.tripService.getTrip(this.id).then(tripDto => {
       this.trip = new Trip(tripDto);
+      this.getCostOfTrip();
     });
 
     this.buttonDictionary = { ['addNewTravelButton']: "customizeTravelTable", ['addNewAccommodationButton']: "customizeAccommodationTable", ['addNewOutGoingButton']: "customizeOutgoingTable"};
+  }
+
+  getCostOfTrip() {
+    this.tripService.getCostOfTrip(this.id).then(costs => {
+      console.log(costs);
+      console.log(this.trip.participants);
+      costs.forEach(cost => {
+        this.trip.participants.forEach(u => {
+          console.log(u.ID == cost.userID);
+          if (u.ID == cost.userID) {
+            u.addCosts(cost);
+            console.log(u.totalCost);
+          }
+        });
+      });
+    });
   }
 
   travelCardClicked(index: number) {
@@ -254,6 +271,7 @@ export class CustomizeTripPageComponent implements OnInit {
     });
     this.travelService.addNewTravel(newTravel);
     this.trip.travels.push(new Travelling(newTravel));
+    this.getCostOfTrip();
   }
 
   createNewAccommodation() {
@@ -301,6 +319,7 @@ export class CustomizeTripPageComponent implements OnInit {
     console.log(newAccommodation);
     this.accommodationService.addNewAccommodation(newAccommodation);
     this.trip.accommodations.push(new Accommodation(newAccommodation));
+    this.getCostOfTrip();
   }
 
   createNewOutgoing() {
@@ -353,6 +372,7 @@ export class CustomizeTripPageComponent implements OnInit {
     console.log(newOutgoing);
     this.outgoingService.addNewOutgoing(newOutgoing);
     this.trip.outgoings.push(new Outgoing(newOutgoing));
+    this.getCostOfTrip();
   }
 
 }

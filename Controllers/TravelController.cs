@@ -86,7 +86,7 @@ namespace MyTravelBook.Controllers
             travel.StartPoint = value.StartPoint;
             travel.Destination = value.Destination;
             travel.PricePerPeson = value.PricePerPeson;
-            travel.Destination = value.Destination;
+            travel.Distance = value.Distance;
             travel.Consumption = value.Consumption;
             travel.FuelPrice = value.FuelPrice;
             travel.VignettePrice = value.VignettePrice;

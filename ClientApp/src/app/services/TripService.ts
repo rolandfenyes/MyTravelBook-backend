@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { TripDTO, UserIdDto } from "../model/dtos";
+import { CostDTO, TripDTO, UserIdDto } from "../model/dtos";
 import { MyAccount } from "../model/user";
 import { UserService } from "./UserService";
 
@@ -26,6 +26,10 @@ export class TripService {
 
     async getTrip(id: number): Promise<TripDTO> {
       return this.http.get<TripDTO>(this.baseUrl + this.tripUrl + "/" + id).toPromise();
+    }
+
+    async getCostOfTrip(id: number): Promise<Array<CostDTO>> {
+      return this.http.get<Array<CostDTO>>(this.baseUrl + this.tripUrl + "/getCostsOfTrip/" + id).toPromise();
     }
 
     async addNewTrip(tripDto: TripDTO): Promise<number> {

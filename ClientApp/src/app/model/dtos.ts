@@ -59,3 +59,12 @@ export class ExpenseDTO {
     applicationUserDTOs: UserDTO[];
     tripID: number;
   }
+
+export class CostDTO {
+  id: number;
+  userID: string;
+  travelCost: number;
+  accommodationCost: number;
+  expenseCost: number;
+  totalCost: number;
+}
