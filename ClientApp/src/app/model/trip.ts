@@ -1,7 +1,6 @@
-import { threadId } from 'worker_threads';
 import { AccommodationDTO, TravelDTO, TripDTO } from './dtos';
 import { Outgoing } from './outgoing';
-import { MyAccount, User } from './user';
+import { User } from './user';
 
 export class Trip {
     tripName: string;

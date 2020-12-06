@@ -24,6 +24,7 @@ export class NewTripPageComponent implements OnInit {
   tripService: TripService;
   userService: UserService;
   userId!: string;
+  selected: {startDate: Date, endDate: Date};
 
   constructor(private router: Router, private http : HttpClient, @Inject('BASE_URL') private baseUrl: string) { 
     this.tripService = new TripService(http, baseUrl);
