@@ -17,6 +17,7 @@ export class HomeComponent {
 
   constructor(private authorizeService: AuthorizeService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.isAuthenticated = this.authorizeService.isAuthenticated();
+    console.log(this.isAuthenticated);
     if (this.isAuthenticated) {
       var userService = new UserService(http, baseUrl);
       userService.getUser().then(u => MyAccount.getInstance().userId = u.id);

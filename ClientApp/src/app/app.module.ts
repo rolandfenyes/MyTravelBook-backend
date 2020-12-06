@@ -21,9 +21,9 @@ import { TravelCardComponent } from './travel-card/travel-card.component';
 import { TripCardComponent } from './trip-card/trip-card.component';
 // Datepicker module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FriendsComponent } from './friends/friends.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
