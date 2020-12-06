@@ -5,15 +5,6 @@
                 <h1>
                     My trips in progress
                 </h1>
-            </th>
-            <th>
-                <h1>
-                    My trips
-                </h1>
-            </th>
-        </tr>
-        <tr>
-            <th>
                 <div class="myTripsInProgressContainer">
                     <div class="cards" *ngFor="let item of myTripsInProgress">
                         <div class="animate__animated animate__flipInX animate__delay-.5s" (click)="navigateToCustomizeById(item.id)">
@@ -23,6 +14,9 @@
                 </div>
             </th>
             <th>
+                <h1>
+                    My trips
+                </h1>
                 <div class="myFutureTripsContainer">
                     <div class="cards" *ngFor="let item of myFutureTrips">
                         <div class="animate__animated animate__flipInX animate__delay-.5s" (click)="navigateToCustomizeById(item.id)">

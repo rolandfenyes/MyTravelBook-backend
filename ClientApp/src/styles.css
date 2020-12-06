@@ -33,3 +33,16 @@
   padding: 0px;
   width: 100%;
 }
+
+@media only screen and (max-width: 1019px) {
+  table th {
+      display: block;
+      width: 100vw;
+  }
+
+  body {
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: center;
+  }
+}

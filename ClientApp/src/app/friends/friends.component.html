@@ -7,15 +7,6 @@
                     <h2>
                         Friends
                     </h2>
-                </th>
-                <th>
-                    <h2>
-                        Add friend
-                    </h2>
-                </th>
-            </tr>
-            <tr>
-                <th>
                     <div class="friendsScroll">
                         <div class="friends" *ngFor="let item of myFriends">
                             <app-friend-card [user]="item" [isInviation]="true"></app-friend-card>
@@ -23,6 +14,10 @@
                     </div>
                 </th>
                 <th>
+                    
+                    <h2>
+                        Add friend
+                    </h2>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Type your friend's name to add</label>
                         <input [(ngModel)]="friendName" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Kis Béla">

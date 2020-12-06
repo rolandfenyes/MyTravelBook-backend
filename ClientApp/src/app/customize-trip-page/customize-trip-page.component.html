@@ -10,35 +10,11 @@
 
             </th>
         </tr>
-        <tr class="headers">
+        <tr class="details">
             <th>
                 <h2>
                     Travels
                 </h2>
-            </th>
-            <th>
-                <h2>
-                    Nights
-                </h2>
-            </th>
-            <th>
-                <h2>
-                    Outgoings
-                </h2>
-            </th>
-            <th>
-                <h2>
-                    Costs/person
-                </h2>
-            </th>
-            <th class="optionsColumn">
-                <h2>
-                    Options
-                </h2>
-            </th>
-        </tr>
-        <tr class="details">
-            <th>
                 <div *ngFor="let item of trip.travels; index as i">
                     <div (click)="travelCardClicked(i)">
                         <app-travel-card [travel]="item"></app-travel-card>
@@ -46,6 +22,9 @@
                 </div>
             </th>
             <th>
+                <h2>
+                    Nights
+                </h2>
                 <div *ngFor="let night of trip.accommodations; index as i">
                     <div (click)="accommodationCardClicked(i)">
                         <app-accommodation-card [accommodation]="night"></app-accommodation-card>
@@ -53,16 +32,25 @@
                 </div>
             </th>
             <th>
+                <h2>
+                    Outgoings
+                </h2>
                 <div *ngFor="let outgoing of trip.outgoings">
                     <app-outgoing-card [outgoing]="outgoing"></app-outgoing-card>
                 </div>
             </th>
             <th>
+                <h2>
+                    Costs/person
+                </h2>
                 <div *ngFor="let participant of trip.participants">
                     <app-person-costs-card [user]="participant"></app-person-costs-card>
                 </div>
             </th>
             <th class="optionsColumn">
+                <h2>
+                    Options
+                </h2>
                 <table id="buttonTable" class="buttonTable">
                     <tr class="buttonRow">
                         <th>

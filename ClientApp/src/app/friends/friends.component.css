@@ -27,3 +27,23 @@ table th {
 .friends-container {
     margin-left: auto;
 }
+
+@media only screen and (max-width: 1019px) {
+    .card {
+        width: 90vw;
+    }
+
+    table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    table th {
+        display: inline;
+    }
+
+    th {
+        width: 25vw;
+        text-align: center;
+    }
+}
