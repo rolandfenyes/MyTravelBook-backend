@@ -23,6 +23,8 @@ import { TripCardComponent } from './trip-card/trip-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FriendsComponent } from './friends/friends.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { MyAccount } from './model/user';
 
 
 @NgModule({
@@ -40,6 +42,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TravelCardComponent,
     TripCardComponent,
     FriendsComponent,
+    MyProfileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,7 +56,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       { path: 'my-trips', component: MyTripsPageComponent},
       { path: 'create-new-trip', component: NewTripPageComponent},
       { path: 'customize-trip/:id', component: CustomizeTripPageComponent},
-      { path: 'friends', component: FriendsComponent}
+      { path: 'friends', component: FriendsComponent},
+      { path: 'my-account', component: MyProfileComponent}
     ])
   ],
   providers: [

@@ -21,8 +21,21 @@ export class UserService {
     return this.http.get<UserIdDto>(this.baseUrl + this.userUrl + '/getCurrentUserId').toPromise();
   }
 
+  public getUserDto(): Promise<UserDTO> {
+    return this.http.get<UserDTO>(this.baseUrl + this.userUrl + '/' + MyAccount.getInstance().userId).toPromise();
+  }
+
   public getFriends(): Promise<UserDTO[]> {
     return this.http.get<UserDTO[]>(this.baseUrl + this.userUrl + '/friends/' + MyAccount.getInstance().userId).toPromise();
+  }
+
+  public changeNickname(nickname: string, birth: Date) {
+    var userDto = new UserDTO();
+    userDto.id = "",
+    userDto.nickname = nickname;
+    userDto.birth = birth;
+    console.log(userDto);
+    return this.http.put(this.baseUrl + this.userUrl + '/' + MyAccount.getInstance().userId, userDto).toPromise();
   }
 
   public addFriend(nickname: string): Promise<UserIdDto> {

@@ -1,0 +1,39 @@
+<body>
+    <table>
+        <tr>
+            <th colspan="2">
+                <h1>
+                    Change your nickname!
+                </h1>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Nickname
+            </th>
+            <th>
+                <input [(ngModel)]="nickName"  [ngModelOptions]="{standalone: true}"
+                                type="text"
+                                placeholder="{{actualNickName}}"
+                                class="form-control">
+            </th>
+        </tr>
+        
+        <tr>
+            <th>
+                Birth
+            </th>
+            <th>
+                <input [(ngModel)]="birth"  [ngModelOptions]="{standalone: true}"
+                                type="text"
+                                placeholder="{{actualBirth}}"
+                                class="form-control">
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                <button id="saveChangesButton" type="button" class="btn" (click)="saveChanges()">Save changes</button>
+            </th>
+        </tr>
+    </table>
+</body>

@@ -36,7 +36,15 @@ export class NewTripPageComponent implements OnInit {
     this.myFriends = [];
     this.invitedFriends = [];
     this.minDate = new Date();
-    this.userService.getFriends().then( f => this.myFriends = f);
+    if (MyAccount.getInstance().userId == null) {
+      this.userService.getUser().then(userId => {
+        MyAccount.getInstance().userId = userId.id;
+        this.userService.getFriends().then( f => this.myFriends = f);
+      })
+    }
+    else {
+      this.userService.getFriends().then( f => this.myFriends = f);
+    }
   }
 
   inviteFriend(friend: UserDTO) {

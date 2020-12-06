@@ -10,5 +10,9 @@ namespace MyTravelBook.Models
     {
         public string Nickname { get; set; }
         public DateTime Birth { get; set; }
+        public ApplicationUser() : base()
+        {
+            this.EmailConfirmed = true;
+        }
     }
 }
