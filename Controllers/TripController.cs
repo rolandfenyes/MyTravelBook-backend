@@ -91,6 +91,20 @@ namespace MyTravelBook.Controllers
             }
         }
 
+        [HttpGet("getCostsOfTrip/{id}")]
+        public List<CostDTO> GetCostsOfTrip(int id)
+        {
+            var costsOfTrip = dbContext.TripUserCostConnectionTable.Where(t => t.TripID == id).ToList();
+            var costsOfTripDTO = new List<CostDTO>();
+            foreach (var usersCost in costsOfTrip)
+            {
+                var cost = dbContext.Costs.Where(c => c.ID == usersCost.CostID).FirstOrDefault();
+                var costDTO = new CostDTO(cost, usersCost.UserID);
+                costsOfTripDTO.Add(costDTO);
+            }
+            return costsOfTripDTO;
+        }
+
         public List<TravelDTO> GetTravelDTOsByID(int tripID)
         {
             var travels = dbContext.Travels.ToList();
