@@ -108,8 +108,10 @@ namespace MyTravelBook.Controllers
                     var userIdDto = new UserIdDTO();
                     userIdDto.Id = user.ID;
                     Put(travel.ID, userIdDto);
-                    var tripUserCostID = dbContext.TripUserCostConnectionTable.Where(u => u.UserID == user.ID).FirstOrDefault().CostID;
-                    var usersCost = dbContext.Costs.Where(c => c.ID == tripUserCostID).FirstOrDefault();
+                    var costsOfTrip = dbContext.TripUserCostConnectionTable.Where(t => t.TripID == value.TripID).ToList();
+
+                    var userCostId = costsOfTrip.Where(t => t.UserID == user.ID).FirstOrDefault().CostID;
+                    var usersCost = dbContext.Costs.Where(c => c.ID == userCostId).FirstOrDefault();
                     if (travel.TravelType == TravelType.CAR)
                     {
                         var carPricePerPerson = GetPricePerPersonIfCar(travel.Distance, travel.Consumption, travel.FuelPrice, travel.VignettePrice, value.Participants.Count);
